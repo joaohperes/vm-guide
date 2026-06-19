@@ -40,7 +40,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .prose strong{color:#e8ecf2;font-weight:500}
 h3{font-size:15px;font-weight:500;color:#e8ecf2;margin:28px 0 12px}
 .src{font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:6px;vertical-align:middle}
-.share-link{font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:8px;vertical-align:middle;cursor:pointer;opacity:.4;transition:opacity .15s;text-decoration:none}
+.share-link{display:inline-flex;align-items:center;color:var(--text3);margin-left:10px;vertical-align:middle;cursor:pointer;opacity:.45;transition:opacity .15s,color .15s;text-decoration:none}
+.share-link svg{display:block}
 .share-link:hover{color:var(--teal);opacity:1}
 .callout{border-left:3px solid;padding:12px 16px;border-radius:0 6px 6px 0;margin:16px 0;font-size:13.5px;line-height:1.65}
 .callout strong{font-weight:500}

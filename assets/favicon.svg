@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="6" fill="#0d0f12"/>
-  <text x="16" y="22" font-family="monospace" font-size="14" font-weight="700" fill="#1db88a" text-anchor="middle" letter-spacing="-0.5">VM</text>
+  <!-- trachea -->
+  <line x1="16" y1="3" x2="16" y2="12" stroke="#1db88a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- bronchi -->
+  <path d="M16 12 Q10 12 9 16 M16 12 Q22 12 23 16" stroke="#1db88a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- left lung lobe -->
+  <path d="M9 16 C5 16 2 19 2 23 C2 27 5 30 9 29 C12 28 13 26 13 23 L13 16 Z" fill="#1db88a"/>
+  <!-- right lung lobe -->
+  <path d="M23 16 C27 16 30 19 30 23 C30 27 27 30 23 29 C20 28 19 26 19 23 L19 16 Z" fill="#1db88a"/>
 </svg>

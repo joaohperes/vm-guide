@@ -22,7 +22,8 @@ const PAGES = [
   {id:'sedoanalgesia',file:'sedoanalgesia.html',cat:'Farmacologia',          label:'Sedoanalgesia na UTI',   title:'Sedoanalgesia pós-IOT na UTI',          subtitle:'Sedativos, opioides e escalas de monitoramento'},
   {id:'calculadora',  file:'calculadora.html',  cat:'Referência',            label:'Calculadoras',           title:'Calculadoras',                          subtitle:'PBW/VC · Driving Pressure · VM · P/F · IRRS'},
   {id:'tabelas',      file:'tabelas.html',      cat:'Referência',            label:'Tabelas rápidas',        title:'Tabelas Rápidas',                       subtitle:'Consulta de plantão — situação vs estratégia'},
-  {id:'quiz',         file:'quiz.html',         cat:'Caso clínico',          label:'Caso clínico / Quiz',    title:'Caso Clínico Interativo',               subtitle:'Quiz de múltipla escolha'}
+  {id:'quiz',         file:'quiz.html',         cat:'Caso clínico',          label:'Caso clínico / Quiz',    title:'Caso Clínico Interativo',               subtitle:'Quiz de múltipla escolha'},
+  {id:'assistente',   file:'assistente.html',   cat:'Assistente IA',         label:'Assistente de conduta',  title:'Assistente de Conduta (IA)',            subtitle:'Cole a anamnese e receba sugestão de conduta ventilatória'}
 ];
 
 // Caminho relativo até a raiz (páginas ficam na raiz, então '' basta).

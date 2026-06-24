@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistente de conduta — VM Guide</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .as-field{margin:18px 0}
+  .as-label{display:block;font-family:var(--mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:8px}
+  .as-input,.as-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:14px;padding:12px 14px;line-height:1.6}
+  .as-input:focus,.as-textarea:focus{outline:none;border-color:var(--teal)}
+  .as-textarea{min-height:200px;resize:vertical}
+  .as-input{max-width:280px}
+  .as-btn{font-family:var(--mono);font-size:12px;color:var(--teal);background:var(--teal-bg);border:1px solid var(--teal-d);padding:9px 18px;border-radius:6px;cursor:pointer;transition:all .15s}
+  .as-btn:hover:not(:disabled){background:rgba(29,184,138,.18);border-color:var(--teal)}
+  .as-btn:disabled{opacity:.5;cursor:not-allowed}
+  .as-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .as-status{font-family:var(--mono);font-size:12px;color:var(--text2)}
+  .as-status.err{color:var(--red)}
+  .as-out{margin-top:28px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:6px 24px 18px;display:none}
+  .as-out.show{display:block}
+  .as-out h2{font-size:15px;font-weight:600;color:var(--teal);margin:22px 0 8px;font-family:var(--sans)}
+  .as-out h3{font-size:14px;margin:18px 0 8px}
+  .as-out p{margin:8px 0;line-height:1.7}
+  .as-out ul{margin:8px 0 8px 20px}
+  .as-out li{margin:5px 0;line-height:1.6}
+  .as-out strong{color:#e8ecf2;font-weight:500}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body data-page="assistente">
+<main class="main">
+<section class="section" id="assistente">
+  <h1 class="section-title">Assistente de Conduta (IA)</h1>
+  <p class="section-subtitle">Cole os dados do paciente e receba uma sugestão de raciocínio e conduta ventilatória para considerar.</p>
+
+  <div class="callout red">
+    <strong>Ferramenta de apoio — não substitui o julgamento clínico.</strong> As respostas são geradas por IA (Claude) e podem conter erros. Toda conduta é de responsabilidade do plantonista. <strong>Não cole dados que identifiquem o paciente</strong> (nome, registro): use apenas dados clínicos.
+  </div>
+
+  <div class="as-field">
+    <label class="as-label" for="as-senha">Senha de acesso</label>
+    <input type="password" id="as-senha" class="as-input" autocomplete="off" placeholder="••••••••">
+  </div>
+
+  <div class="as-field">
+    <label class="as-label" for="as-anamnese">Dados do paciente / anamnese / parâmetros atuais</label>
+    <textarea id="as-anamnese" class="as-textarea" placeholder="Ex: Masc, 175 cm, ~90 kg. SDRA por pneumonia. IOT há 2h. AC-VC, VC 580 mL, FR 18, PEEP 10, FiO2 0,8. Gaso: PaO2 70, PaCO2 48, pH 7,30. Pplat 33."></textarea>
+  </div>
+
+  <div class="as-row">
+    <button class="as-btn" id="as-go" onclick="pedirSugestao()">Sugerir conduta</button>
+    <span class="as-status" id="as-status"></span>
+  </div>
+
+  <div class="as-out" id="as-out"></div>
+</section>
+</main>
+<script src="assets/app.js"></script>
+<script>
+function pedirSugestao(){
+  const senha=document.getElementById('as-senha').value.trim();
+  const anamnese=document.getElementById('as-anamnese').value.trim();
+  const status=document.getElementById('as-status');
+  const out=document.getElementById('as-out');
+  const btn=document.getElementById('as-go');
+  status.className='as-status';
+  if(!senha){status.className='as-status err';status.textContent='Informe a senha.';return;}
+  if(!anamnese){status.className='as-status err';status.textContent='Cole os dados do paciente.';return;}
+  btn.disabled=true;
+  status.innerHTML='<span class="spinner"></span>Consultando o assistente…';
+  out.classList.remove('show');out.innerHTML='';
+  fetch('/api/sugerir',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({senha:senha,anamnese:anamnese})
+  }).then(async r=>{
+    const data=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(data.error||('Erro '+r.status));
+    return data;
+  }).then(data=>{
+    status.textContent='';
+    out.innerHTML=mdToHtml(data.sugestao||'(resposta vazia)');
+    out.classList.add('show');
+    out.scrollIntoView({behavior:'smooth',block:'start'});
+  }).catch(err=>{
+    status.className='as-status err';
+    status.textContent=err.message||'Falha na requisição.';
+  }).finally(()=>{btn.disabled=false;});
+}
+
+// Mini-renderizador de markdown (subconjunto: ## h2, ### h3, **bold**, - listas, parágrafos)
+function mdToHtml(md){
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  const lines=md.split('\n');let html='';let inList=false;
+  const closeList=()=>{if(inList){html+='</ul>';inList=false;}};
+  for(let raw of lines){
+    const line=raw.trim();
+    if(!line){closeList();continue;}
+    if(line.startsWith('## ')){closeList();html+='<h2>'+inline(line.slice(3))+'</h2>';}
+    else if(line.startsWith('### ')){closeList();html+='<h3>'+inline(line.slice(4))+'</h3>';}
+    else if(/^[-*]\s+/.test(line)){if(!inList){html+='<ul>';inList=true;}html+='<li>'+inline(line.replace(/^[-*]\s+/,''))+'</li>';}
+    else{closeList();html+='<p>'+inline(line)+'</p>';}
+  }
+  closeList();
+  return html;
+}
+
+// Enter no campo senha foca o textarea
+document.getElementById('as-senha').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();document.getElementById('as-anamnese').focus();}
+});
+</script>
+</body>
+</html>

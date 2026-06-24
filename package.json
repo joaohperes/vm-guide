@@ -1,6 +1,10 @@
 {
   "name": "vm-guide",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "extract-knowledge": "node scripts/extract-knowledge.js"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.70.0"
   }

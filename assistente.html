@@ -59,9 +59,16 @@
   .bubble h2:first-child{margin-top:4px}
   .bubble h3{font-size:13.5px;margin:14px 0 6px}
   .bubble p{margin:7px 0}
-  .bubble ul{margin:7px 0 7px 20px}
+  .bubble ul,.bubble ol{margin:7px 0 7px 20px;padding:0}
   .bubble li{margin:4px 0}
   .bubble strong{color:#e8ecf2;font-weight:500}
+  .bubble em{font-style:italic;color:var(--text2)}
+  .bubble table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13px}
+  .bubble th,.bubble td{border:1px solid var(--border);padding:6px 9px;text-align:left;vertical-align:top}
+  .bubble th{background:var(--bg3);color:var(--text2);font-family:var(--mono);font-weight:500;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+  .bubble pre{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 13px;overflow-x:auto;margin:10px 0}
+  .bubble pre code{font-family:var(--mono);font-size:12.5px;color:var(--text);background:none;border:0;padding:0;white-space:pre}
+  .bubble code{font-family:var(--mono);font-size:12.5px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:1px 5px}
   .chat-empty{flex:1;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:13px;text-align:center;line-height:1.6;padding:30px}
 
   .composer{display:flex;gap:10px;align-items:flex-end}
@@ -264,15 +271,40 @@ function enviar(){
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escAttr(s){return esc(s).replace(/"/g,'&quot;');}
 function mdToHtml(md){
-  const inline=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-  const lines=String(md).split('\n');let html='';let inList=false;
-  const closeList=()=>{if(inList){html+='</ul>';inList=false;}};
-  for(let raw of lines){
-    const line=raw.trim();
+  const inline=s=>esc(s)
+    .replace(/`([^`]+?)`/g,'<code>$1</code>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*\n]+?)\*/g,'<em>$1</em>');
+  const lines=String(md).split('\n');
+  let html='';let inList=false;let listTag='ul';
+  const closeList=()=>{if(inList){html+='</'+listTag+'>';inList=false;}};
+  const openList=tag=>{if(inList&&listTag!==tag)closeList();if(!inList){html+='<'+tag+'>';inList=true;listTag=tag;}};
+  const splitCells=s=>s.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(x=>x.trim());
+  const isSep=s=>s.includes('|')&&s.includes('-')&&/^\|?[\s:|-]*-[\s:|-]*\|?$/.test(s);
+  for(let i=0;i<lines.length;i++){
+    const line=lines[i].trim();
+    // bloco de código (```...```)
+    if(line.startsWith('```')){
+      closeList();const buf=[];i++;
+      while(i<lines.length&&!lines[i].trim().startsWith('```')){buf.push(lines[i]);i++;}
+      html+='<pre><code>'+esc(buf.join('\n'))+'</code></pre>';continue;
+    }
     if(!line){closeList();continue;}
-    if(line.startsWith('## ')){closeList();html+='<h2>'+inline(line.slice(3))+'</h2>';}
-    else if(line.startsWith('### ')){closeList();html+='<h3>'+inline(line.slice(4))+'</h3>';}
-    else if(/^[-*]\s+/.test(line)){if(!inList){html+='<ul>';inList=true;}html+='<li>'+inline(line.replace(/^[-*]\s+/,''))+'</li>';}
+    // tabela: linha com | seguida de linha separadora
+    if(line.includes('|')&&i+1<lines.length&&isSep(lines[i+1].trim())){
+      closeList();
+      const head=splitCells(line);i++;let body='';
+      while(i+1<lines.length&&lines[i+1].trim().includes('|')&&lines[i+1].trim()){
+        body+='<tr>'+splitCells(lines[i+1].trim()).map(c=>'<td>'+inline(c)+'</td>').join('')+'</tr>';i++;
+      }
+      html+='<table><thead><tr>'+head.map(c=>'<th>'+inline(c)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table>';
+      continue;
+    }
+    if(line.startsWith('### ')){closeList();html+='<h3>'+inline(line.slice(4))+'</h3>';}
+    else if(line.startsWith('## ')){closeList();html+='<h2>'+inline(line.slice(3))+'</h2>';}
+    else if(line.startsWith('# ')){closeList();html+='<h2>'+inline(line.slice(2))+'</h2>';}
+    else if(/^\d+\.\s+/.test(line)){openList('ol');html+='<li>'+inline(line.replace(/^\d+\.\s+/,''))+'</li>';}
+    else if(/^[-*•]\s+/.test(line)){openList('ul');html+='<li>'+inline(line.replace(/^[-*•]\s+/,''))+'</li>';}
     else{closeList();html+='<p>'+inline(line)+'</p>';}
   }
   closeList();return html;

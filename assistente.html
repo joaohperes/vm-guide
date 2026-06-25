@@ -23,32 +23,45 @@
   .as-status{font-family:var(--mono);font-size:12px;color:var(--text2)}
   .as-status.err{color:var(--red)}
 
-  /* layout: lista de casos + conversa */
-  .case-layout{display:grid;grid-template-columns:230px 1fr;gap:20px;margin-top:8px}
-  .case-list{border:1px solid var(--border);border-radius:10px;background:var(--bg2);overflow:hidden;align-self:start}
-  .case-list-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+  /* disclaimer compacto recolhível */
+  .as-disc{border-left:3px solid var(--red);background:rgba(226,75,74,.07);border-radius:0 6px 6px 0;margin:16px 0;font-size:13px;line-height:1.6}
+  .as-disc-bar{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;color:#f0a0a0}
+  .as-disc-bar strong{font-weight:500;color:#f0a0a0}
+  .as-disc-bar .as-disc-arrow{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--text3);transition:transform .15s}
+  .as-disc.open .as-disc-arrow{transform:rotate(180deg)}
+  .as-disc-body{display:none;padding:0 14px 12px 14px;color:#e8b0b0;line-height:1.65}
+  .as-disc.open .as-disc-body{display:block}
+
+  /* layout: coluna de casos (recolhível) + conversa full-width */
+  .case-layout{display:grid;grid-template-columns:240px 1fr;gap:0;margin-top:14px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2);min-height:520px}
+  .case-layout.collapsed{grid-template-columns:0 1fr}
+  .case-col{border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;overflow:hidden;transition:opacity .15s}
+  .case-layout.collapsed .case-col{opacity:0;pointer-events:none;border-right:none}
+  .case-list-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
   .case-list-head span{font-family:var(--mono);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:var(--text3)}
-  .case-new{font-family:var(--mono);font-size:11px;color:var(--teal);background:none;border:1px solid var(--teal-d);border-radius:5px;padding:3px 9px;cursor:pointer}
+  .case-new{font-family:var(--mono);font-size:11px;color:var(--teal);background:none;border:1px solid var(--teal-d);border-radius:5px;padding:4px 11px;cursor:pointer}
   .case-new:hover{background:var(--teal-bg)}
-  .case-item{display:flex;align-items:center;gap:6px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s}
-  .case-item:last-child{border-bottom:none}
+  .case-items{overflow-y:auto;flex:1}
+  .case-item{display:flex;align-items:center;gap:6px;padding:11px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s}
   .case-item:hover{background:var(--bg3)}
-  .case-item.active{background:rgba(29,184,138,.08);border-left:2px solid var(--teal);padding-left:12px}
+  .case-item.active{background:rgba(29,184,138,.08);box-shadow:inset 2px 0 0 var(--teal)}
   .case-item .ci-name{flex:1;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .case-item .ci-when{font-family:var(--mono);font-size:9px;color:var(--text3)}
-  .case-del{opacity:0;color:var(--text3);background:none;border:none;cursor:pointer;font-size:14px;line-height:1;padding:2px 4px}
+  .case-del{opacity:0;color:var(--text3);background:none;border:none;cursor:pointer;font-size:15px;line-height:1;padding:2px 4px}
   .case-item:hover .case-del{opacity:1}
   .case-del:hover{color:var(--red)}
-  .case-empty{padding:16px 14px;font-size:12px;color:var(--text3);line-height:1.5}
+  .case-empty{padding:16px;font-size:12px;color:var(--text3);line-height:1.5}
 
-  .chat{display:flex;flex-direction:column;min-height:420px}
-  .chat-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .chat{display:flex;flex-direction:column;min-height:520px;min-width:0}
+  .chat-head{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--border)}
+  .chat-toggle{background:none;border:1px solid var(--border);color:var(--text2);border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:14px;line-height:1;flex-shrink:0;transition:all .12s}
+  .chat-toggle:hover{border-color:var(--border2);color:var(--text);background:var(--bg3)}
   .chat-title{font-size:16px;font-weight:600;color:#e8ecf2}
   .chat-rename{font-family:var(--mono);font-size:10px;color:var(--text3);background:none;border:none;cursor:pointer;text-decoration:underline}
   .chat-rename:hover{color:var(--teal)}
-  .msgs{flex:1;display:flex;flex-direction:column;gap:14px;margin-bottom:16px}
-  .msg{max-width:92%}
-  .msg.user{align-self:flex-end}
+  .msgs{flex:1;display:flex;flex-direction:column;gap:16px;padding:20px;overflow-y:auto}
+  .msg{max-width:90%}
+  .msg.user{align-self:flex-end;max-width:75%}
   .msg.assistant{align-self:flex-start;width:100%}
   .msg-role{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:5px}
   .msg.user .msg-role{text-align:right}
@@ -72,14 +85,27 @@
   .bubble hr{border:none;border-top:1px solid var(--border);margin:12px 0}
   .chat-empty{flex:1;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:13px;text-align:center;line-height:1.6;padding:30px}
 
-  .composer{display:flex;gap:10px;align-items:flex-end}
+  .composer{display:flex;gap:10px;align-items:flex-end;padding:14px 20px;border-top:1px solid var(--border);background:var(--bg2)}
   .composer .as-textarea{flex:1}
+  .chat-status{font-family:var(--mono);font-size:12px;color:var(--text2);padding:0 20px}
+  .chat-status.err{color:var(--red)}
   .spinner{display:inline-block;width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
   @keyframes spin{to{transform:rotate(360deg)}}
 
+  /* modal dark (substitui prompt/confirm nativos) */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;z-index:200}
+  .modal-backdrop.show{display:flex}
+  .modal{background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:22px;width:min(440px,calc(100vw - 40px));box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .modal-title{font-size:15px;font-weight:600;color:#e8ecf2;margin-bottom:6px}
+  .modal-msg{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+  .modal input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:14px;padding:11px 14px;margin-bottom:18px}
+  .modal input:focus{outline:none;border-color:var(--teal)}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px}
+
   @media(max-width:760px){
-    .case-layout{grid-template-columns:1fr}
-    .case-list{order:2}
+    .case-layout{grid-template-columns:160px 1fr}
+    .case-layout.collapsed{grid-template-columns:0 1fr}
+    .msg.user{max-width:88%}
   }
 </style>
 </head>
@@ -89,8 +115,14 @@
   <h1 class="section-title">Assistente de Conduta (IA)</h1>
   <p class="section-subtitle">Discuta cada paciente em uma conversa contínua — o histórico do caso fica salvo neste navegador.</p>
 
-  <div class="callout red">
-    <strong>Ferramenta de apoio — não substitui o julgamento clínico.</strong> As respostas são geradas por IA (Claude) e podem conter erros. Toda conduta é de responsabilidade do plantonista. <strong>Não use dados que identifiquem o paciente</strong> (nome real, registro): use apelido/leito e apenas dados clínicos.
+  <div class="as-disc" id="as-disc">
+    <div class="as-disc-bar" onclick="document.getElementById('as-disc').classList.toggle('open')">
+      <strong>⚠ Ferramenta de apoio — não substitui o julgamento clínico.</strong>
+      <span class="as-disc-arrow">▾</span>
+    </div>
+    <div class="as-disc-body">
+      As respostas são geradas por IA (Claude) e podem conter erros. Toda conduta é de responsabilidade do plantonista. <strong>Não use dados que identifiquem o paciente</strong> (nome real, registro): use apelido/leito e apenas dados clínicos.
+    </div>
   </div>
 
   <div id="as-senha-box" style="margin:18px 0">
@@ -103,12 +135,12 @@
   </div>
 
   <div class="case-layout" id="as-app" style="display:none">
-    <aside class="case-list">
+    <aside class="case-col">
       <div class="case-list-head">
         <span>Casos</span>
         <button class="case-new" onclick="novoCaso()">+ Novo</button>
       </div>
-      <div id="case-items"></div>
+      <div class="case-items" id="case-items"></div>
     </aside>
 
     <div class="chat" id="chat">
@@ -117,6 +149,19 @@
   </div>
 </section>
 </main>
+
+<!-- Modal dark genérico (texto/confirmação) -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-msg" id="modal-msg"></div>
+    <input type="text" id="modal-input" autocomplete="off" style="display:none">
+    <div class="modal-actions">
+      <button class="as-btn as-btn-ghost" id="modal-cancel">Cancelar</button>
+      <button class="as-btn" id="modal-ok">OK</button>
+    </div>
+  </div>
+</div>
 <script src="assets/app.js"></script>
 <script>
 // ========================================================================
@@ -149,29 +194,78 @@ function salvarSenha(){
   render();
 }
 
+// ----- Modal dark (substitui prompt/confirm nativos) -----
+// uiPrompt({title,msg,value,placeholder,ok}) → Promise<string|null>
+// uiConfirm({title,msg,ok,danger}) → Promise<boolean>
+let modalResolve=null;
+function modalClose(val){
+  document.getElementById('modal-backdrop').classList.remove('show');
+  const r=modalResolve;modalResolve=null;
+  if(r)r(val);
+}
+function uiPrompt(opts){
+  return new Promise(resolve=>{
+    modalResolve=resolve;
+    document.getElementById('modal-title').textContent=opts.title||'';
+    document.getElementById('modal-msg').textContent=opts.msg||'';
+    const inp=document.getElementById('modal-input');
+    inp.style.display='block';inp.value=opts.value||'';inp.placeholder=opts.placeholder||'';
+    const ok=document.getElementById('modal-ok');ok.textContent=opts.ok||'OK';ok.className='as-btn';
+    document.getElementById('modal-backdrop').classList.add('show');
+    setTimeout(()=>{inp.focus();inp.select();},30);
+    ok.onclick=()=>modalClose(inp.value.trim());
+    document.getElementById('modal-cancel').onclick=()=>modalClose(null);
+  });
+}
+function uiConfirm(opts){
+  return new Promise(resolve=>{
+    modalResolve=resolve;
+    document.getElementById('modal-title').textContent=opts.title||'';
+    document.getElementById('modal-msg').textContent=opts.msg||'';
+    document.getElementById('modal-input').style.display='none';
+    const ok=document.getElementById('modal-ok');ok.textContent=opts.ok||'Confirmar';
+    ok.className='as-btn'+(opts.danger?' as-btn-danger':'');
+    if(opts.danger)ok.style.cssText='color:var(--red);background:rgba(226,75,74,.1);border-color:rgba(226,75,74,.4)';else ok.style.cssText='';
+    document.getElementById('modal-backdrop').classList.add('show');
+    setTimeout(()=>ok.focus(),30);
+    ok.onclick=()=>modalClose(true);
+    document.getElementById('modal-cancel').onclick=()=>modalClose(false);
+  });
+}
+// teclas no modal: Enter confirma, Esc cancela
+document.getElementById('modal-backdrop').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();document.getElementById('modal-ok').click();}
+  else if(e.key==='Escape'){e.preventDefault();document.getElementById('modal-cancel').click();}
+});
+document.getElementById('modal-backdrop').addEventListener('mousedown',e=>{
+  if(e.target.id==='modal-backdrop')modalClose(modalResolve&&document.getElementById('modal-input').style.display==='none'?false:null);
+});
+
 // ----- Casos -----
-function novoCaso(){
-  const nome=(prompt('Nome do caso (apelido/leito — NÃO use nome real):','')||'').trim();
+async function novoCaso(){
+  const nome=await uiPrompt({title:'Novo caso',msg:'Apelido ou leito — NÃO use nome real do paciente.',placeholder:'ex: leito 7'});
   if(!nome)return;
   const c={id:uid(),nome:nome,messages:[],updatedAt:Date.now()};
   casos.unshift(c);casoAtivo=c.id;saveCasos();render();
   setTimeout(()=>{const t=document.getElementById('composer-input');if(t)t.focus();},50);
 }
 function abrirCaso(id){casoAtivo=id;render();}
-function apagarCaso(id,e){
+async function apagarCaso(id,e){
   e.stopPropagation();
   const c=getCaso(id);if(!c)return;
-  if(!confirm('Apagar o caso "'+c.nome+'"? Isso remove o histórico deste navegador.'))return;
+  const ok=await uiConfirm({title:'Apagar caso',msg:'Apagar o caso "'+c.nome+'"? Isso remove o histórico deste navegador, sem desfazer.',ok:'Apagar',danger:true});
+  if(!ok)return;
   casos=casos.filter(x=>x.id!==id);
   if(casoAtivo===id)casoAtivo=casos.length?casos[0].id:null;
   saveCasos();render();
 }
-function renomearCaso(id){
+async function renomearCaso(id){
   const c=getCaso(id);if(!c)return;
-  const nome=(prompt('Renomear caso:',c.nome)||'').trim();
+  const nome=await uiPrompt({title:'Renomear caso',value:c.nome,placeholder:'apelido/leito'});
   if(!nome)return;
   c.nome=nome;c.updatedAt=Date.now();saveCasos();render();
 }
+function toggleCasos(){document.getElementById('as-app').classList.toggle('collapsed');}
 
 // ----- Render -----
 function render(){
@@ -193,7 +287,12 @@ function renderChat(){
   const chat=document.getElementById('chat');
   const c=getCaso(casoAtivo);
   if(!c){
-    chat.innerHTML='<div class="chat-empty">Selecione um caso à esquerda<br>ou crie um <strong>+ Novo</strong> para começar.</div>';
+    chat.innerHTML=
+      '<div class="chat-head">'+
+        '<button class="chat-toggle" title="Mostrar/ocultar casos" onclick="toggleCasos()">☰</button>'+
+        '<span class="chat-title" style="color:var(--text3);font-weight:400">Nenhum caso aberto</span>'+
+      '</div>'+
+      '<div class="chat-empty">Selecione um caso ou crie um <strong>+ Novo</strong> para começar.</div>';
     return;
   }
   let msgsHtml='';
@@ -210,11 +309,12 @@ function renderChat(){
   const firstTurn=c.messages.length===0;
   chat.innerHTML=
     '<div class="chat-head">'+
+      '<button class="chat-toggle" title="Mostrar/ocultar casos" onclick="toggleCasos()">☰</button>'+
       '<span class="chat-title">'+esc(c.nome)+'</span>'+
       '<button class="chat-rename" onclick="renomearCaso(\''+c.id+'\')">renomear</button>'+
     '</div>'+
     '<div class="msgs" id="msgs">'+msgsHtml+'</div>'+
-    '<div class="as-status" id="chat-status" style="margin-bottom:10px"></div>'+
+    '<div class="chat-status" id="chat-status"></div>'+
     '<div class="composer">'+
       '<textarea class="as-textarea" id="composer-input" rows="2" placeholder="'+
         (firstTurn?'Ex: Masc, 175 cm, ~90 kg. SDRA por pneumonia. AC-VC, VC 580 mL, FR 18, PEEP 10, FiO2 0,8. Gaso: PaO2 70, PaCO2 48, pH 7,30. Pplat 33.':'Pergunta de acompanhamento sobre este caso…')+
@@ -234,10 +334,10 @@ function enviar(){
   const status=document.getElementById('chat-status');
   const btn=document.getElementById('composer-send');
   const texto=ta.value.trim();
-  status.className='as-status';
-  if(!texto){status.className='as-status err';status.textContent='Escreva uma mensagem.';return;}
+  status.className='chat-status';
+  if(!texto){status.className='chat-status err';status.textContent='Escreva uma mensagem.';return;}
   const senha=getSenha();
-  if(!senha){status.className='as-status err';status.textContent='Sessão expirou — recarregue e informe a senha.';return;}
+  if(!senha){status.className='chat-status err';status.textContent='Sessão expirou — recarregue e informe a senha.';return;}
 
   // adiciona turno do usuário e re-renderiza otimisticamente
   c.messages.push({role:'user',content:texto});
@@ -263,7 +363,7 @@ function enviar(){
   }).catch(err=>{
     // mantém a mensagem do usuário pra ele poder reenviar; mostra o erro
     const s=document.getElementById('chat-status');
-    if(s){s.className='as-status err';s.textContent=err.message||'Falha na requisição.';}
+    if(s){s.className='chat-status err';s.textContent=err.message||'Falha na requisição.';}
     const b=document.getElementById('composer-send');if(b)b.disabled=false;
   });
 }

@@ -52,14 +52,35 @@ function buildShell(){
   const overlay=document.createElement('div');overlay.className='overlay';overlay.id='overlay';overlay.onclick=toggleMenu;
   const toast=document.createElement('div');toast.className='toast';toast.id='toast';
 
-  // Sidebar agrupada por categoria
+  // Sidebar agrupada por categoria — seções colapsáveis
   const nav=document.createElement('nav');
   nav.className='sidebar';nav.id='sidebar';
-  let html='';let lastCat=null;
+  // agrupa as páginas por categoria preservando a ordem
+  const groups=[];
   PAGES.forEach(p=>{
-    if(p.cat!==lastCat){html+='<div class="sidebar-section">'+p.cat+'</div>';lastCat=p.cat;}
-    const active=p.id===curId?' active':'';
-    html+='<a class="nav-link'+active+'" href="'+p.file+'">'+p.label+'</a>';
+    let g=groups.find(x=>x.cat===p.cat);
+    if(!g){g={cat:p.cat,items:[]};groups.push(g);}
+    g.items.push(p);
+  });
+  // estado salvo das seções abertas
+  let openState={};
+  try{openState=JSON.parse(localStorage.getItem('vmguide-nav-open'))||{};}catch(e){openState={};}
+  const curCat=(PAGES.find(p=>p.id===curId)||{}).cat;
+  let html='';
+  groups.forEach(g=>{
+    // aberta se: salva como aberta, OU contém a página ativa (sem estado salvo em contrário)
+    const saved=openState[g.cat];
+    const open=saved===true || (saved===undefined && g.cat===curCat);
+    html+='<div class="sidebar-group'+(open?' open':'')+'" data-cat="'+g.cat.replace(/"/g,'&quot;')+'">'+
+            '<button class="sidebar-section" onclick="toggleNavGroup(this)">'+
+              '<span>'+g.cat+'</span><span class="sg-arrow">▸</span>'+
+            '</button>'+
+            '<div class="sidebar-group-items">';
+    g.items.forEach(p=>{
+      const active=p.id===curId?' active':'';
+      html+='<a class="nav-link'+active+'" href="'+p.file+'">'+p.label+'</a>';
+    });
+    html+='</div></div>';
   });
   nav.innerHTML=html;
 
@@ -77,6 +98,19 @@ function buildShell(){
   b.insertBefore(overlay,b.firstChild);
   b.insertBefore(progress,b.firstChild);
   b.insertBefore(header,b.firstChild);
+}
+
+// ------------------------------------------------------------
+// SIDEBAR — seções colapsáveis (estado salvo em localStorage)
+// ------------------------------------------------------------
+function toggleNavGroup(btn){
+  const group=btn.parentElement;
+  const cat=group.dataset.cat;
+  const open=group.classList.toggle('open');
+  let st={};
+  try{st=JSON.parse(localStorage.getItem('vmguide-nav-open'))||{};}catch(e){st={};}
+  st[cat]=open;
+  try{localStorage.setItem('vmguide-nav-open',JSON.stringify(st));}catch(e){}
 }
 
 // ------------------------------------------------------------

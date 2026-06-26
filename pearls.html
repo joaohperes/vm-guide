@@ -49,6 +49,7 @@
 // Campos: categoria, titulo, cenario, pearl, pitfall, porque
 // ============================================================
 const pearls = [
+  // ── Contusão pulmonar ──────────────────────────────────────
   {
     categoria: 'Contusão pulmonar',
     titulo: 'PEEP vs VAC',
@@ -64,6 +65,166 @@ const pearls = [
     pearl: 'Fibroscopia tem indicação quando a atelectasia é obstrutiva — rolha de muco, coágulo ou secreção espessa bloqueando brônquio segmentar/lobar. Nesse contexto, aspira o obstáculo e o pulmão reexpande.',
     pitfall: 'Usar fibro como substituto de PEEP para colapso por hipoventilação. Fibro não recruta pulmão — ela desobstrui via aérea. Sem PEEP adequado depois, o pulmão volta a colapsar.',
     porque: 'São dois mecanismos distintos de atelectasia. Obstrutiva → fibro. Por hipoventilação/PEEP insuficiente → otimização de parâmetros. Mesmo quando a fibro está indicada, não dispensa PEEP adequado na sequência.'
+  },
+
+  // ── SDRA ───────────────────────────────────────────────────
+  {
+    categoria: 'SDRA',
+    titulo: 'Driving pressure: o alvo que importa',
+    cenario: 'SDRA moderada, VC 6 ml/kg PBW, Pplatô 28 cmH₂O, PEEP 10. Parece "protegido". SpO₂ OK.',
+    pearl: 'Calcule o driving pressure (DP = Pplatô − PEEP). Aqui: 28 − 10 = 18 cmH₂O — acima do alvo de ≤15. Reduza o VC ou aumente o PEEP até DP ≤15, mesmo que o Pplatô pareça aceitável isoladamente.',
+    pitfall: 'Focar só no Pplatô <30 e ignorar o DP é o erro mais comum. Pplatô "seguro" com PEEP baixo ainda entrega alta pressão de distensão a cada ciclo — é isso que o pulmão sente.',
+    porque: 'Amato et al. (NEJM 2015): análise de dados individuais de 9 RCTs com 3.562 pacientes com SDRA — DP foi o preditor de mortalidade mais forte, superando VC e Pplatô isolados. Risco de morte aumenta significativamente acima de ~15 cmH₂O. O pulmão enxerga a diferença entre Pplatô e PEEP, não os valores absolutos.'
+  },
+  {
+    categoria: 'SDRA',
+    titulo: 'Prona: a janela fecha rápido',
+    cenario: 'SDRA grave (P/F <150) há 36 h após intubação. Equipe ainda tentando otimizar parâmetros antes de pronar.',
+    pearl: 'Inicie a prona em até 36 h após a intubação em SDRA grave (P/F <150 com FiO₂ >60% e PEEP ≥5). Sessões de ≥16 h/dia. Esse foi o critério do PROSEVA — o benefício de sobrevida foi demonstrado nessa janela.',
+    pitfall: 'Esperar "mais um dia para ver se melhora" é perder a janela. Pacientes pronados fora do SDRA precoce (<7 dias) têm menos probabilidade de recrutamento pulmonar e provavelmente não obtêm o mesmo benefício de mortalidade.',
+    porque: 'PROSEVA (Guérin, NEJM 2013): 466 pacientes, mortalidade 28 dias de 16% (prona) vs 32,8% (supino) — NNT 6. O protocolo incluía paralisia muscular e ≥16 h/dia em decúbito ventral. SDRA persistente (>7 dias) pode paradoxalmente piorar a relação V/Q com prona.'
+  },
+  {
+    categoria: 'SDRA',
+    titulo: 'PEEP alto nem sempre recruta',
+    cenario: 'SDRA com P/F 130. Equipe aumenta PEEP de 10 para 16 buscando recrutamento. Pplatô sobe para 32 e PA cai.',
+    pearl: 'Antes de subir PEEP, avalie recrutabilidade: se P/F não melhora >20% com incremento de PEEP e a hemodinâmica piora, o pulmão não é recrutável — volte ao PEEP anterior. Padrão focal (consolidação unilateral/lobar) recruta mal; padrão difuso (bilateral homogêneo) recruta melhor.',
+    pitfall: 'PEEP alto em pulmão não recrutável = sobredistensão das áreas já abertas + aumento de pós-carga do VD + hipotensão. Não existe PEEP ideal universal.',
+    porque: 'Estudos de morfologia pulmonar na SDRA (Annals of Intensive Care 2021) mostram que recrutabilidade é significativamente maior no padrão difuso (21%) vs focal (11%). No padrão focal, aumentar PEEP eleva driving pressure e elastância — o oposto do objetivo.'
+  },
+  {
+    categoria: 'SDRA',
+    titulo: 'Cor pulmonale agudo: o PEEP que afunda o VD',
+    cenario: 'SDRA grave. Equipe sobe PEEP para 16. SpO₂ melhora discretamente, mas a PA cai e aparecem sinais de congestão venosa. Echo: VD dilatado, septo paradoxal.',
+    pearl: 'Cor pulmonale agudo ocorre em 20–25% das SDRA. Confirmado ao eco (VD dilatado + septo paradoxal): reduza PEEP, reduza VC, considere prona (reduz pós-carga do VD). Vasopressor: noradrenalina. Evite volume.',
+    pitfall: 'Tratar a hipotensão como hipovolemia (mais fluido) piora a falência do VD por sobrecarga de volume. PEEP alto eleva pós-carga pulmonar e reduz retorno venoso — dois golpes simultâneos no VD já fragilizado pela hipoxemia.',
+    porque: 'O VD não tolera aumento agudo de pós-carga. Na SDRA, hipoxemia + hipercapnia + PEEP excessivo = vasoconstrição pulmonar + compressão de capilares alveolares. Eco à beira do leito é o diagnóstico mais rápido e deve guiar o ajuste do PEEP.'
+  },
+
+  // ── Dissincronia ───────────────────────────────────────────
+  {
+    categoria: 'Dissincronia',
+    titulo: 'Double-triggering: ventilação que machuca sem alarme',
+    cenario: 'Paciente em modo controlado (A/C VC), sedado. Curva de fluxo mostra dois ciclos seguidos com tempo expiratório menor que metade do tempo inspiratório médio. VC efetivo dobrado.',
+    pearl: 'Double-triggering → breath stacking → VC efetivo de 12+ ml/kg sem alarme. Solução imediata: aumentar o tempo inspiratório (ou diminuir FR) para alinhar com o esforço do paciente; considerar aprofundamento de sedação ou bloqueio neuromuscular se SDRA.',
+    pitfall: 'O ventilador não alarma — o VC monitorado é o do ciclo programado, não o acumulado. O dano é silencioso. Pacientes com drive alto (hipoxemia, dor, ansiedade) são de alto risco.',
+    porque: 'Double-triggering ocorre quando o tempo inspiratório programado é menor que o esforço neural do paciente. O segundo trigger ocorre ainda na fase expiratória inicial, empilhando volumes e gerando pressões transpulmonares altíssimas a cada ciclo.'
+  },
+  {
+    categoria: 'Dissincronia',
+    titulo: 'Reverse triggering: o diafragma que o sedativo não cala',
+    cenario: 'Paciente em modo controlado, completamente sedado (RASS −4). Curva de pressão mostra deformidades na fase expiratória. Gasometria piorando sem motivo aparente.',
+    pearl: 'Considere reverse triggering: o ciclo mandatório dispara uma contração diafragmática reflexa que ocorre na fase expiratória — criando breath stacking e pressões transpulmonares altíssimas. Confirme com monitoração de EAdi (NAVA) ou bloqueio neuromuscular diagnóstico.',
+    pitfall: 'É contraintuitivo: sedação profunda predispõe ao reverse triggering (o drive central é inibido, mas o arco reflexo espinal do diafragma persiste). Mais sedação pode não resolver — às vezes piora.',
+    porque: 'O mecanismo é um reflexo de entrainment: o stretch da insuflação passiva ativa aferentes pulmonares que disparam contração diafragmática, mesmo sem drive cortical. Descrito e nomeado em 2013 — ainda frequentemente não reconhecido no plantão.'
+  },
+  {
+    categoria: 'Dissincronia',
+    titulo: 'Trigger inefetivo: o esforço invisível',
+    cenario: 'Paciente em PSV. FR no display: 14. Paciente visivelmente dispneico, FR real observada: 28. Curva de pressão mostra entalhes sem ciclo subsequente.',
+    pearl: 'Trigger inefetivo = esforço que o ventilador não detecta. Causas: auto-PEEP (esforço não supera PEEPi), sensibilidade de trigger alta demais, secreções. Ajuste: adicionar PEEP extrínseco (≈80% do PEEPi medido), aumentar sensibilidade do trigger.',
+    pitfall: 'A FR do display subestima grosseiramente o trabalho respiratório real. Olhe a curva de pressão e o movimento torácico/abdominal — não o número na tela. Paciente "calmo" no monitor pode estar exausto.',
+    porque: 'Com auto-PEEP de 8 cmH₂O, o paciente precisa gerar −8 cmH₂O só para "zerar" o sistema antes de acionar o trigger. PEEP extrínseco de 6 cmH₂O reduz esse limiar para −2 cmH₂O — trabalho muito menor para o mesmo resultado.'
+  },
+
+  // ── Desmame ────────────────────────────────────────────────
+  {
+    categoria: 'Desmame',
+    titulo: 'SAT antes do SBT — nessa ordem, sempre',
+    cenario: 'Paciente em VM há 5 dias, sedado (RASS −2), clínica estabilizada. Equipe cogita TRE.',
+    pearl: 'Realize o SAT (suspensão/redução da sedação) antes do SBT (Teste de Respiração Espontânea). SAT + SBT no mesmo dia reduz tempo de VM e mortalidade — protocolo ABC. O SBT em paciente sedado não testa a capacidade real.',
+    pitfall: 'Fazer o TRE com paciente sedado é o erro clássico. O sucesso é falso (paciente não gera drive real); o fracasso é inconclusivo. E manter sedação desnecessária adiciona dias de VM e risco de VIDD.',
+    porque: 'ABC Trial (Girard, Lancet 2008): SAT + SBT diários vs SBT isolado → 3,1 dias a menos de VM, 4 dias a menos de UTI, mortalidade reduzida em 1 ano. É o protocolo com mais evidência em desmame ventilatório.'
+  },
+  {
+    categoria: 'Desmame',
+    titulo: 'Extubação e falência cardíaca: o TRE é um teste de estresse',
+    cenario: 'Paciente pós-sepse, cardiopata. Passou no TRE de 30 min. Extubado. 2 h depois: dispneia, SpO₂ caindo. Reintubado.',
+    pearl: 'O TRE é cardiovascularmente estressante: a transição de pressão positiva para negativa aumenta pré-carga e pós-carga do VE simultaneamente. Em cardiopatas, considere: BNP pré-TRE, suporte profilático com HFNO ou VNI imediatamente após extubação.',
+    pitfall: 'Sucesso no TRE não garante sucesso na extubação em cardiopatas. A falência pós-extubação de causa cardíaca é previsível — mas frequentemente tratada tarde (reintubação de emergência em vez de VNI/HFNO precoce).',
+    porque: 'A pressão negativa intratorácica da ventilação espontânea aumenta o retorno venoso e a pós-carga do VE ao mesmo tempo. Para um VE com função reduzida, isso pode precipitar EAP agudo em horas.'
+  },
+  {
+    categoria: 'Desmame',
+    titulo: 'VNI pós-extubação: profilaxia sim, resgate não',
+    cenario: 'Paciente extubado após TRE aprovado. 3 h depois: FR 32, SpO₂ 88% em O₂. Equipe coloca VNI para "tentar mais um pouco".',
+    pearl: 'VNI como resgate de falência pós-extubação estabelecida aumenta mortalidade. VNI funciona como profilaxia em alto risco (DPOC, ICC, SDRA) — colocar imediatamente após extubação, antes de qualquer sinal de falha.',
+    pitfall: 'Usar VNI para adiar a reintubação é a armadilha fatal. Se o paciente não responde em 30–60 min de VNI após falência instalada — reintubar sem hesitar. A janela de intubação segura se fecha.',
+    porque: 'Esteban et al. (NEJM 2004): VNI em falência pós-extubação → maior mortalidade que tratamento convencional + intubação precoce. Mecanismo: a VNI mascara deterioração clínica e retarda intubação oportuna — o reintervalo seguro é perdido.'
+  },
+  {
+    categoria: 'Desmame',
+    titulo: 'Taquipneia no TRE: não é sempre falha',
+    cenario: 'TRE em peça T. FR sobe de 18 para 26 nos primeiros 15 min. Equipe aborta por "intolerância".',
+    pearl: 'FR de 26–30 no início do TRE não é automaticamente falha. Avalie a tendência: FR estabilizou? SpO₂ mantida? Sem uso excessivo de musculatura acessória, diaforese ou agitação? Se sim, continue. O RSBI (FR/VT em L) <105 min/L é o critério mais validado — não a FR isolada.',
+    pitfall: 'Abortar TRE precocemente por taquipneia leve atrasa o desmame sem justificativa. Falha real: taquipneia progressiva + queda de VT + uso de musculatura acessória + SpO₂ caindo. Sem essa constelação, a taquipneia pode ser adaptativa.',
+    porque: 'A transição para ventilação espontânea fisiologicamente aumenta o trabalho respiratório. O RSBI integra frequência e volume: paciente que taquipneíza mas mantém VT adequado provavelmente tem drive e força preservados. RSBI >105 com queda de VT é o sinal de alarme real.'
+  },
+
+  // ── DPOC & Asma ────────────────────────────────────────────
+  {
+    categoria: 'DPOC & Asma',
+    titulo: 'Hipotensão na intubação: pense no pulmão, não só no sedativo',
+    cenario: 'DPOC exacerbado, intubado de emergência. FR programada 16. 10 min depois: PA 70/40, sem resposta a fluido.',
+    pearl: 'Suspeite de hiperinsuflação dinâmica com tamponamento funcional. Desconecte o circuito por 15–30 s e deixe o paciente desinsuflar. Se PA sobe — era auto-PEEP. Ajuste: FR 10–12/min, I:E 1:3 a 1:4, VC 6–8 ml/kg.',
+    pitfall: 'Tratar hipotensão pós-intubação em DPOC/asma com volume e vasopressor sem descartar hiperinsuflação é perder tempo e agravar o problema. Volume extra piora o retorno venoso já comprometido pelo auto-PEEP.',
+    porque: 'Auto-PEEP elevado comprime as câmaras cardíacas direitas e impede o retorno venoso — efeito análogo ao tamponamento cardíaco, mas de causa pulmonar. O diagnóstico é clínico + resposta à desconexão. Aumentar FR para "corrigir" hipercapnia piora o auto-PEEP.'
+  },
+
+  // ── TCE ────────────────────────────────────────────────────
+  {
+    categoria: 'TCE',
+    titulo: 'Hipocapnia profilática: o reflexo que mata neurônios',
+    cenario: 'TCE grave, intubado pelo SAMU com FR 22. PaCO₂ 28 na 1ª gasometria. Equipe mantém "para prevenir herniação".',
+    pearl: 'Alvo de PaCO₂ em TCE grave sem herniação: 35–40 mmHg. Hipocapnia profilática causa vasoconstrição cerebral e isquemia. Reserve hiperventilação (PaCO₂ 30–35) para herniação iminente, por tempo limitado (máx 30–60 min), com plano imediato de outra intervenção.',
+    pitfall: 'Ventilação "agressiva" com PaCO₂ <30 é comum pré-hospitalar e nas primeiras horas de UTI — e está associada a pior outcome neurológico. O instinto de "ventilar mais" para uma crise neurológica pode machucar o cérebro isquêmico.',
+    porque: 'Muizelaar et al. (J Neurosurg 1991): RCT em TCE grave, PaCO₂ 25 vs 35 mmHg — piora de outcome neurológico aos 3 e 6 meses no grupo hiperventilado. Mecanismo: cada queda de 1 mmHg na PaCO₂ reduz o fluxo sanguíneo cerebral em ~3%. Com FSC já comprometido, hipocapnia cruza o limiar isquêmico.'
+  },
+
+  // ── Sedoanalgesia ──────────────────────────────────────────
+  {
+    categoria: 'Sedoanalgesia',
+    titulo: 'VIDD: o diafragma some em 24 horas',
+    cenario: 'Paciente em VM há 4 dias, modo controlado, RASS −3 com midazolam + fentanil. Tentativa de desmame: PSV 5/PEEP 5. Paciente não sustenta — FR dispara imediatamente.',
+    pearl: 'VIDD (Ventilator-Induced Diaphragm Dysfunction) instala-se em 18–24 h de ventilação controlada com diafragma inativo. Prevenção: sedação leve (RASS −1 a 0), permitir esforço espontâneo o mais cedo possível, PSV desde quando seguro.',
+    pitfall: 'Sedação profunda para "conforto e proteção" é o fator mais modificável de VIDD. Cada dia adicional de modo controlado + sedação profunda é um dia de atrofia diafragmática — que se paga em dificuldade de desmame prolongado.',
+    porque: 'Levine et al. (NEJM 2008): biópsias de diafragma em pacientes com 18–69 h de VM completa mostraram atrofia de 53–57% das fibras musculares vs controles. Mecanismo: proteólise via ubiquitina-proteassoma + disfunção mitocondrial induzidos pela inatividade.'
+  },
+
+  // ── Complicações ───────────────────────────────────────────
+  {
+    categoria: 'Complicações',
+    titulo: 'Estridor pós-extubação: corticoide antes, não depois',
+    cenario: 'Paciente intubado há 8 dias, sexo feminino, TOT 7.5. Cuff leak test negativo (<110 ml). Extubação planejada para amanhã. Sem profilaxia programada.',
+    pearl: 'Fatores de risco: sexo feminino, tubo grande, intubação >6 dias, cuff leak test negativo. Nesse perfil: múltiplas doses de corticoide iniciando ≥12 h antes da extubação (ex: metilprednisolona 20 mg IV de 4/4h, 4 doses antes da extubação).',
+    pitfall: 'Dose única de corticoide na hora da extubação (prática comum) tem eficácia comprovadamente baixa — três estudos falharam com esse esquema. O edema laríngeo se instala horas antes; o corticoide precisa de tempo para agir. Nebulização com adrenalina é resgate — não substitui profilaxia.',
+    porque: 'Meta-análise e RCTs mostram que esquema multidose ≥12 h antes reduz estridor em ~50% e reintubação em pacientes de alto risco. Mecanismo: corticoide inibe a cascata inflamatória na mucosa laríngea — processo que requer horas para ser revertido, não minutos.'
+  },
+  {
+    categoria: 'Complicações',
+    titulo: 'Pico alto, platô normal: é resistência, não compliance',
+    cenario: 'Paciente em VC controlado. Alarme de pressão: Ppico 45 cmH₂O. Plantonista aumenta sedação e cogita SDRA.',
+    pearl: 'Faça pausa inspiratória (inspiratory hold) e meça o Pplatô. Se Pplatô normal (<28) e diferença Ppico − Pplatô >10 cmH₂O: o problema é resistência (secreção/rolha no TOT, broncoespasmo, TOT dobrado), não compliance. Aspire, ausculte, cheque o tubo.',
+    pitfall: 'Tratar Ppico alto como se fosse Pplatô alto leva a redução de VC desnecessária, aumento de sedação sem motivo e atraso no diagnóstico real. O alarme de Ppico alto é sensível mas não específico para lesão alveolar.',
+    porque: 'Ppico inclui resistência de vias aéreas + elastância pulmonar. Pplatô (após pausa, sem fluxo) reflete só a elastância. A diferença Ppico − Pplatô é a pressão resistiva. Ppico alto com Pplatô normal = problema proximal (via aérea), não alveolar.'
+  },
+  {
+    categoria: 'Complicações',
+    titulo: 'PEA no ventilado: primeiro pense no pulmão',
+    cenario: 'Paciente em VM entra em parada com atividade elétrica sem pulso (AESP). Equipe inicia RCP e prepara adrenalina.',
+    pearl: 'Em paciente ventilado com AESP, antes da adrenalina: desconecte o ventilador por 15–30 s. Se retorno de pulso → era pneumotórax hipertensivo ou hiperinsuflação por auto-PEEP. Resolva a causa e depois avalie se ainda precisa de adrenalina.',
+    pitfall: 'Seguir o ACLS padrão sem considerar causas mecânicas do ventilador é perder tempo fatal. AESP no ventilado tem causas H e T ampliadas: auto-PEEP e pneumotórax hipertensivo devem estar no topo da lista — ambos respondem à desconexão.',
+    porque: 'Pneumotórax hipertensivo e auto-PEEP extremo comprimem o coração e as grandes veias — DC cai a zero, mas o ritmo persiste (AESP). A desconexão do ventilador é simultânea ao diagnóstico e ao tratamento: custo zero, benefício potencial máximo.'
+  },
+
+  // ── Modos & Parâmetros ─────────────────────────────────────
+  {
+    categoria: 'Modos & Parâmetros',
+    titulo: 'FiO₂ alta por inércia: a toxicidade que ninguém vê',
+    cenario: 'Paciente estável em VM há 3 dias. SpO₂ 99%, FiO₂ 0,80. Equipe não ajustou porque "tá saturando bem".',
+    pearl: 'Alvo de SpO₂ em VM: 92–96% (88–92% em SDRA). Reduza FiO₂ sistematicamente assim que o paciente estabilizar. FiO₂ >0,6 por tempo prolongado causa toxicidade pulmonar — atelectasia de absorção e lesão epitelial por estresse oxidativo.',
+    pitfall: '"Tá saturando bem" não é motivo para manter FiO₂ alta. Hiperóxia é prejudicial em pacientes críticos — PILOT Trial (NEJM 2022) mostrou que SpO₂ alvo de 96–100% em VM não melhora desfechos vs alvo conservador de 90–94%.',
+    porque: 'FiO₂ >0,6 por >24–48 h: o nitrogênio é lavado dos alvéolos → colapso por absorção + espécies reativas de oxigênio agridem o epitélio alveolar tipo II. O pulmão já lesado (SDRA, pneumonia) é especialmente vulnerável a esse segundo hit.'
   }
 ];
 

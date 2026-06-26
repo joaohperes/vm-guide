@@ -5,26 +5,26 @@
 // Índice global de páginas. Ordem = ordem da sidebar.
 // cat = categoria (agrupador da sidebar). subtitle alimenta a busca.
 const PAGES = [
-  {id:'fisiologia',   file:'fisiologia.html',   cat:'Fundamentos',           label:'Fisiologia da VM',       title:'Fisiologia da VM com Pressão Positiva', subtitle:'Ciclo ventilatório, mecânica pulmonar e efeitos hemodinâmicos'},
-  {id:'modos',        file:'modos.html',        cat:'Fundamentos',           label:'Modos de VM',            title:'Modos de Ventilação Mecânica',          subtitle:'AC-VC · AC-PC · SIMV-PSV · PSV'},
-  {id:'parametros',   file:'parametros.html',   cat:'Fundamentos',           label:'Parâmetros iniciais',    title:'Parâmetros Iniciais',                   subtitle:'Configuração passo a passo (UpToDate / FCCS)'},
-  {id:'sdra',         file:'sdra.html',         cat:'Patologias',            label:'SDRA',                   title:'SDRA — Ventilação Protetora (LTVV)',    subtitle:'Low Tidal Volume Ventilation'},
-  {id:'prona',        file:'prona.html',        cat:'Patologias',            label:'Posição prona',          title:'Posição Prona na SDRA',                 subtitle:'Benefício de mortalidade na SDRA grave (PROSEVA)'},
-  {id:'dpoc-asma',    file:'dpoc-asma.html',    cat:'Patologias',            label:'DPOC & Asma',            title:'DPOC & Asma — Hiperinsuflação Dinâmica',subtitle:'Air trapping e obstrução ao fluxo expiratório'},
-  {id:'hipercapnia',  file:'hipercapnia.html',  cat:'Patologias',            label:'Hipercapnia permissiva', title:'Hipercapnia Permissiva',                subtitle:'Quando e como aceitar a elevação da PaCO₂'},
-  {id:'tce',          file:'tce.html',          cat:'Patologias',            label:'VM no TCE',              title:'VM no TCE — Estratégia Neuroprotetora', subtitle:'Metas de PPC / PIC · Normoventilação'},
-  {id:'complicacoes', file:'complicacoes.html', cat:'Segurança',             label:'Complicações da VM',     title:'Complicações da VM',                    subtitle:'Reconhecimento precoce, fisiopatologia e conduta'},
-  {id:'dissincronia', file:'dissincronia.html', cat:'Segurança',             label:'Dissincronia P-V',       title:'Dissincronia Paciente-Ventilador',      subtitle:'Tipos, diagnóstico pelas curvas e conduta'},
-  {id:'bnm',          file:'bnm.html',          cat:'Segurança',             label:'Bloqueio neuromuscular', title:'Bloqueio Neuromuscular na SDRA',        subtitle:'Quando paralisar, qual agente e por quanto tempo'},
-  {id:'vni',          file:'vni.html',          cat:'Suporte não-invasivo',  label:'VNI & alto fluxo',       title:'VNI & Cânula Nasal de Alto Fluxo',      subtitle:'Quando evitar a IOT — e quando não insistir (ROX)'},
-  {id:'desmame',      file:'desmame.html',      cat:'Desmame',               label:'SAT / SBT / Extubação',  title:'Desmame Ventilatório — SAT / SBT / Extubação', subtitle:'Critérios, protocolo e T-piece vs PSV baixo'},
-  {id:'indutores',    file:'indutores.html',    cat:'Farmacologia',          label:'Indutores para RSI',     title:'Indutores para RSI',                    subtitle:'Perfil farmacológico e algoritmo por cenário'},
-  {id:'sedoanalgesia',file:'sedoanalgesia.html',cat:'Farmacologia',          label:'Sedoanalgesia na UTI',   title:'Sedoanalgesia pós-IOT na UTI',          subtitle:'Sedativos, opioides e escalas de monitoramento'},
-  {id:'calculadora',  file:'calculadora.html',  cat:'Referência',            label:'Calculadoras',           title:'Calculadoras',                          subtitle:'PBW/VC · Driving Pressure · VM · P/F · IRRS'},
-  {id:'tabelas',      file:'tabelas.html',      cat:'Referência',            label:'Tabelas rápidas',        title:'Tabelas Rápidas',                       subtitle:'Consulta de plantão — situação vs estratégia'},
-  {id:'pearls',       file:'pearls.html',       cat:'Caso clínico',          label:'Pearls & Pitfalls',      title:'Pearls & Pitfalls',                     subtitle:'Cenários de plantão: acerto, erro comum e o porquê do mecanismo'},
-  {id:'quiz',         file:'quiz.html',         cat:'Caso clínico',          label:'Caso clínico / Quiz',    title:'Caso Clínico Interativo',               subtitle:'Quiz de múltipla escolha'},
-  {id:'assistente',   file:'assistente.html',   cat:'Assistente IA',         label:'Assistente de conduta',  title:'Assistente de Conduta (IA)',            subtitle:'Cole a anamnese e receba sugestão de conduta ventilatória'}
+  {id:'fisiologia',   file:'fisiologia.html',   cat:'Fundamentos',              label:'Fisiologia da VM',       title:'Fisiologia da VM com Pressão Positiva', subtitle:'Ciclo ventilatório, mecânica pulmonar e efeitos hemodinâmicos'},
+  {id:'modos',        file:'modos.html',        cat:'Fundamentos',              label:'Modos de VM',            title:'Modos de Ventilação Mecânica',          subtitle:'AC-VC · AC-PC · SIMV-PSV · PSV'},
+  {id:'parametros',   file:'parametros.html',   cat:'Fundamentos',              label:'Parâmetros iniciais',    title:'Parâmetros Iniciais',                   subtitle:'Configuração passo a passo (UpToDate / FCCS)'},
+  {id:'sdra',         file:'sdra.html',         cat:'Patologias',               label:'SDRA',                   title:'SDRA — Ventilação Protetora (LTVV)',    subtitle:'Low Tidal Volume Ventilation'},
+  {id:'prona',        file:'prona.html',        cat:'Patologias',               label:'Posição prona',          title:'Posição Prona na SDRA',                 subtitle:'Benefício de mortalidade na SDRA grave (PROSEVA)'},
+  {id:'dpoc-asma',    file:'dpoc-asma.html',    cat:'Patologias',               label:'DPOC & Asma',            title:'DPOC & Asma — Hiperinsuflação Dinâmica',subtitle:'Air trapping e obstrução ao fluxo expiratório'},
+  {id:'hipercapnia',  file:'hipercapnia.html',  cat:'Patologias',               label:'Hipercapnia permissiva', title:'Hipercapnia Permissiva',                subtitle:'Quando e como aceitar a elevação da PaCO₂'},
+  {id:'tce',          file:'tce.html',          cat:'Patologias',               label:'VM no TCE',              title:'VM no TCE — Estratégia Neuroprotetora', subtitle:'Metas de PPC / PIC · Normoventilação'},
+  {id:'complicacoes', file:'complicacoes.html', cat:'Monitorização & Segurança',label:'Complicações da VM',     title:'Complicações da VM',                    subtitle:'Reconhecimento precoce, fisiopatologia e conduta'},
+  {id:'dissincronia', file:'dissincronia.html', cat:'Monitorização & Segurança',label:'Dissincronia P-V',       title:'Dissincronia Paciente-Ventilador',      subtitle:'Tipos, diagnóstico pelas curvas e conduta'},
+  {id:'bnm',          file:'bnm.html',          cat:'Monitorização & Segurança',label:'Bloqueio neuromuscular', title:'Bloqueio Neuromuscular na SDRA',        subtitle:'Quando paralisar, qual agente e por quanto tempo'},
+  {id:'desmame',      file:'desmame.html',      cat:'Desmame',                  label:'SAT / SBT / Extubação',  title:'Desmame Ventilatório — SAT / SBT / Extubação', subtitle:'Critérios, protocolo e T-piece vs PSV baixo'},
+  {id:'vni',          file:'vni.html',          cat:'Desmame',                  label:'VNI & alto fluxo',       title:'VNI & Cânula Nasal de Alto Fluxo',      subtitle:'Quando evitar a IOT — e quando não insistir (ROX)'},
+  {id:'indutores',    file:'indutores.html',    cat:'Farmacologia',             label:'Indutores para RSI',     title:'Indutores para RSI',                    subtitle:'Perfil farmacológico e algoritmo por cenário'},
+  {id:'sedoanalgesia',file:'sedoanalgesia.html',cat:'Farmacologia',             label:'Sedoanalgesia na UTI',   title:'Sedoanalgesia pós-IOT na UTI',          subtitle:'Sedativos, opioides e escalas de monitoramento'},
+  {id:'calculadora',  file:'calculadora.html',  cat:'Referência',               label:'Calculadoras',           title:'Calculadoras',                          subtitle:'PBW/VC · Driving Pressure · VM · P/F · IRRS'},
+  {id:'tabelas',      file:'tabelas.html',      cat:'Referência',               label:'Tabelas rápidas',        title:'Tabelas Rápidas',                       subtitle:'Consulta de plantão — situação vs estratégia'},
+  {id:'pearls',       file:'pearls.html',       cat:'Pearls & Pitfalls',        label:'Cards clínicos',         title:'Pearls & Pitfalls',                     subtitle:'Cenários de plantão: acerto, erro comum e o porquê do mecanismo'},
+  {id:'quiz',         file:'quiz.html',         cat:'Pearls & Pitfalls',        label:'Caso clínico / Quiz',    title:'Caso Clínico Interativo',               subtitle:'Quiz de múltipla escolha'},
+  {id:'assistente',   file:'assistente.html',   cat:'Assistente IA',            label:'Assistente de conduta',  title:'Assistente de Conduta (IA)',            subtitle:'Cole a anamnese e receba sugestão de conduta ventilatória'}
 ];
 
 // Caminho relativo até a raiz (páginas ficam na raiz, então '' basta).

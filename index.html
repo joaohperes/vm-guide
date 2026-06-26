@@ -8,109 +8,297 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
 <style>
-  body{display:flex;align-items:flex-start;justify-content:center;padding:0}
-  .hub-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:80px 24px 60px;width:100%}
-  .hub-logo{display:flex;align-items:center;gap:10px;margin-bottom:40px}
-  .hub-logo-text{font-family:var(--mono);font-size:20px;font-weight:500;color:var(--teal);letter-spacing:.06em}
-  .hub-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);opacity:.5}
-  .hub-headline{text-align:center;max-width:560px;margin-bottom:56px}
-  .hub-headline h1{font-size:clamp(24px,5vw,38px);font-weight:600;color:#e8ecf2;line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
-  .hub-headline p{font-size:14px;color:var(--text2);line-height:1.7;max-width:440px;margin:0 auto}
-  .modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;width:100%;max-width:700px}
-  .module-card{display:block;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px 26px;text-decoration:none;transition:border-color .2s,transform .2s,background .2s;position:relative;overflow:hidden}
-  .module-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,var(--card-glow,.08) 0%,transparent 65%);pointer-events:none}
-  .module-card:hover{border-color:var(--card-color,var(--teal));background:var(--bg3);transform:translateY(-3px)}
-  .module-card .mc-badge{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--card-color,var(--teal));margin-bottom:12px;display:flex;align-items:center;gap:6px}
-  .module-card .mc-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--card-color,var(--teal));flex-shrink:0}
-  .module-card .mc-title{font-size:18px;font-weight:600;color:#e8ecf2;margin-bottom:8px;line-height:1.2}
-  .module-card .mc-sub{font-size:12.5px;color:var(--text2);line-height:1.55;margin-bottom:16px}
-  .module-card .mc-topics{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px}
-  .module-card .mc-topic{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text3)}
-  .module-card .mc-cta{font-family:var(--mono);font-size:11px;color:var(--card-color,var(--teal));display:flex;align-items:center;gap:5px;opacity:.7;transition:opacity .18s}
-  .module-card:hover .mc-cta{opacity:1}
-  .coming-soon{opacity:.45;pointer-events:none;cursor:default}
-  .coming-soon .mc-badge::after{content:'EM BREVE';margin-left:6px;font-size:9px;background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:3px;color:var(--text3)}
-  .hub-footer{margin-top:56px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.04em;line-height:1.8}
-  @media(max-width:640px){.hub-wrap{padding:56px 20px 48px}.modules-grid{grid-template-columns:1fr}.hub-headline h1{font-size:24px}}
+:root{
+  --bg:#080a0d;--bg2:#0f1215;--bg3:#161b20;
+  --border:#1e2530;--border2:#2a3545;
+  --text:#d4d8e0;--text2:#7a8496;--text3:#404a5c;
+  --teal:#1db88a;--purple:#7c6ff7;--blue:#3b9eff;--amber:#f0a030;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--text);
+  min-height:100vh;overflow-x:hidden;
+  /* subtle dot grid */
+  background-image:radial-gradient(circle,#1e2530 1px,transparent 1px);
+  background-size:28px 28px;
+}
+
+/* ── ambient glow behind content ── */
+.scene{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.glow{position:absolute;border-radius:50%;filter:blur(120px);opacity:.18}
+.glow-teal{width:600px;height:600px;background:#1db88a;top:-120px;left:50%;transform:translateX(-50%)}
+.glow-purple{width:400px;height:400px;background:#7c6ff7;bottom:-60px;right:-60px}
+.glow-blue{width:300px;height:300px;background:#3b9eff;bottom:0;left:-80px}
+
+/* ── wrap ── */
+.hub{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:72px 24px 64px}
+
+/* ── logo ── */
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:52px;text-decoration:none}
+.logo-icon{opacity:.9}
+.logo-wordmark{font-family:var(--mono);font-size:17px;font-weight:500;letter-spacing:.14em;color:#fff;opacity:.92}
+.logo-pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);position:relative}
+.logo-pulse::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  border:1px solid var(--teal);opacity:.5;
+  animation:pulse 2.4s ease-out infinite;
+}
+@keyframes pulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(2.4);opacity:0}}
+
+/* ── headline ── */
+.headline{text-align:center;max-width:520px;margin-bottom:64px}
+.headline-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:20px;
+  padding:5px 14px;border-radius:20px;
+  background:rgba(29,184,138,.08);border:1px solid rgba(29,184,138,.2);
+}
+.headline-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal)}
+.headline h1{
+  font-size:clamp(28px,5.5vw,46px);font-weight:600;
+  line-height:1.1;letter-spacing:-.03em;
+  color:#fff;margin-bottom:16px;
+}
+.headline h1 span{
+  background:linear-gradient(135deg,#1db88a 0%,#34d399 60%,#6ee7b7 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.headline p{font-size:14px;color:var(--text2);line-height:1.75;max-width:400px;margin:0 auto}
+
+/* ── grid ── */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  width:100%;max-width:760px;
+}
+
+/* ── card ── */
+.card{
+  position:relative;border-radius:18px;padding:28px 28px 24px;
+  text-decoration:none;overflow:hidden;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .25s,box-shadow .25s;
+  display:flex;flex-direction:column;
+}
+/* glass shimmer on top edge */
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  pointer-events:none;
+}
+/* glow layer */
+.card::after{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:radial-gradient(ellipse at top,var(--c-glow,rgba(29,184,138,.07)) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--c-border,rgba(29,184,138,.4));
+  box-shadow:0 0 0 1px var(--c-border,rgba(29,184,138,.15)),0 20px 60px rgba(0,0,0,.5),0 0 40px var(--c-shadow,rgba(29,184,138,.08));
+}
+.card:hover::after{opacity:1}
+
+/* card — active */
+.card.active{cursor:pointer}
+
+/* card — coming soon */
+.card.soon{opacity:.5;pointer-events:none}
+
+/* ── card internals ── */
+.c-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--c-accent,var(--teal));margin-bottom:18px;
+}
+.c-dot{width:6px;height:6px;border-radius:50%;background:var(--c-accent,var(--teal));flex-shrink:0}
+.soon-tag{
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text3);padding:1px 7px;border-radius:3px;margin-left:4px;
+}
+.c-title{
+  font-size:22px;font-weight:600;color:#fff;
+  line-height:1.15;letter-spacing:-.02em;margin-bottom:10px;
+  flex-grow:0;
+}
+.c-sub{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:20px;flex-grow:1}
+.c-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.c-tag{
+  font-family:var(--mono);font-size:10px;
+  padding:3px 9px;border-radius:5px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border2);
+  color:var(--text3);
+  transition:border-color .2s,color .2s;
+}
+.card:hover .c-tag{border-color:rgba(255,255,255,.08);color:var(--text2)}
+.c-cta{
+  display:flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  color:var(--c-accent,var(--teal));
+  opacity:.65;transition:opacity .2s,gap .2s;
+  margin-top:auto;
+}
+.card:hover .c-cta{opacity:1;gap:10px}
+.c-cta-arrow{font-size:14px;transition:transform .2s}
+.card:hover .c-cta-arrow{transform:translateX(3px)}
+
+/* ── icon strip on cards ── */
+.c-icon{
+  position:absolute;top:24px;right:24px;
+  opacity:.07;transition:opacity .3s;
+}
+.card:hover .c-icon{opacity:.13}
+
+/* ── divider line between active + soon ── */
+.grid-divider{
+  grid-column:1/-1;
+  display:flex;align-items:center;gap:12px;
+  margin:6px 0 2px;
+}
+.grid-divider-line{flex:1;height:1px;background:var(--border)}
+.grid-divider-label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3)}
+
+/* ── footer ── */
+.footer{
+  margin-top:60px;text-align:center;
+  font-family:var(--mono);font-size:10px;
+  color:var(--text3);letter-spacing:.04em;line-height:2;
+}
+.footer a{color:var(--text3);text-decoration:none}
+.footer a:hover{color:var(--text2)}
+
+/* ── responsive ── */
+@media(max-width:620px){
+  .hub{padding:56px 18px 48px}
+  .grid{grid-template-columns:1fr}
+  .headline h1{font-size:26px}
+  .c-title{font-size:19px}
+}
 </style>
 </head>
 <body>
-<div class="hub-wrap">
-  <div class="hub-logo">
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1db88a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M5 8h8.5a2.5 2.5 0 1 0 -2.34 -3.24"/><path d="M3 12h15.5a2.5 2.5 0 1 1 -2.34 3.24"/><path d="M4 16h5.5a2.5 2.5 0 1 1 -2.34 3.24"/>
+
+<div class="scene">
+  <div class="glow glow-teal"></div>
+  <div class="glow glow-purple"></div>
+  <div class="glow glow-blue"></div>
+</div>
+
+<div class="hub">
+
+  <a class="logo" href="index.html">
+    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1db88a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 8h8.5a2.5 2.5 0 1 0-2.34-3.24"/><path d="M3 12h15.5a2.5 2.5 0 1 1-2.34 3.24"/><path d="M4 16h5.5a2.5 2.5 0 1 1-2.34 3.24"/>
     </svg>
-    <span class="hub-logo-text">bedside</span>
-    <span class="hub-logo-dot"></span>
+    <span class="logo-wordmark">bedside</span>
+    <span class="logo-pulse"></span>
+  </a>
+
+  <div class="headline">
+    <div class="headline-eyebrow">Guias clínicos de UTI &amp; Emergência</div>
+    <h1>Conhecimento<br><span>à beira do leito</span></h1>
+    <p>Fundamentos, condutas e calculadoras para o plantonista. Conteúdo curado, sem ruído.</p>
   </div>
 
-  <div class="hub-headline">
-    <h1>Guias clínicos<br>para a beira do leito</h1>
-    <p>Material de apoio à decisão clínica em UTI e emergência. Fundamentos, condutas e calculadoras organizados por tema.</p>
-  </div>
+  <div class="grid">
 
-  <div class="modules-grid">
-
-    <a class="module-card" href="vm/fisiologia.html" style="--card-color:#1db88a;--card-glow:rgba(29,184,138,.06)">
-      <div class="mc-badge">VM Guide</div>
-      <div class="mc-title">Ventilação<br>Mecânica</div>
-      <div class="mc-sub">Modos, parâmetros, SDRA, desmame, dissincronia e assistente de conduta IA.</div>
-      <div class="mc-topics">
-        <span class="mc-topic">SDRA · Prona</span>
-        <span class="mc-topic">DPOC & Asma</span>
-        <span class="mc-topic">Desmame</span>
-        <span class="mc-topic">Pearls & Pitfalls</span>
-        <span class="mc-topic">Assistente IA</span>
+    <!-- VM Guide -->
+    <a class="card active"
+       href="vm/fisiologia.html"
+       style="--c-accent:#1db88a;--c-border:rgba(29,184,138,.35);--c-glow:rgba(29,184,138,.1);--c-shadow:rgba(29,184,138,.12)">
+      <svg class="c-icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#1db88a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12h3l3-8 4 16 3-8h4"/><path d="M19 12h3"/>
+      </svg>
+      <div class="c-badge"><span class="c-dot"></span>VM Guide</div>
+      <div class="c-title">Ventilação<br>Mecânica</div>
+      <div class="c-sub">Modos, parâmetros, SDRA, desmame, dissincronia e assistente de conduta com IA.</div>
+      <div class="c-tags">
+        <span class="c-tag">SDRA · Prona</span>
+        <span class="c-tag">DPOC &amp; Asma</span>
+        <span class="c-tag">Desmame</span>
+        <span class="c-tag">Pearls &amp; Pitfalls</span>
+        <span class="c-tag">Assistente IA</span>
       </div>
-      <div class="mc-cta">Abrir guia →</div>
+      <div class="c-cta">Abrir guia <span class="c-cta-arrow">→</span></div>
     </a>
 
-    <a class="module-card" href="hemo/fisio.html" style="--card-color:#7c6ff7;--card-glow:rgba(124,111,247,.06)">
-      <div class="mc-badge">Hemo Guide</div>
-      <div class="mc-title">Hemodinâmica<br>&amp; Choque</div>
-      <div class="mc-sub">Gasometria pareada, POCUS VCI, quadrantes SvcO₂ × Δ pCO₂, vasopressores e casos práticos.</div>
-      <div class="mc-topics">
-        <span class="mc-topic">SvcO₂ · Δ pCO₂</span>
-        <span class="mc-topic">POCUS VCI</span>
-        <span class="mc-topic">Vasopressores</span>
-        <span class="mc-topic">Casos práticos</span>
-        <span class="mc-topic">SSC 2026</span>
+    <!-- Hemo Guide -->
+    <a class="card active"
+       href="hemo/fisio.html"
+       style="--c-accent:#7c6ff7;--c-border:rgba(124,111,247,.35);--c-glow:rgba(124,111,247,.1);--c-shadow:rgba(124,111,247,.12)">
+      <svg class="c-icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#7c6ff7" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+        <path d="M7.5 4.5C9 3.5 10.5 3 12 3"/><path d="M16.5 4.5C18 5.5 19.5 7.5 20 10"/>
+      </svg>
+      <div class="c-badge"><span class="c-dot"></span>Hemo Guide</div>
+      <div class="c-title">Hemodinâmica<br>&amp; Choque</div>
+      <div class="c-sub">Gasometria pareada, POCUS VCI, quadrantes SvcO₂ × Δ pCO₂, vasopressores e casos simulados.</div>
+      <div class="c-tags">
+        <span class="c-tag">SvcO₂ · Δ pCO₂</span>
+        <span class="c-tag">POCUS VCI</span>
+        <span class="c-tag">Vasopressores</span>
+        <span class="c-tag">Casos práticos</span>
+        <span class="c-tag">SSC 2026</span>
       </div>
-      <div class="mc-cta">Abrir guia →</div>
+      <div class="c-cta">Abrir guia <span class="c-cta-arrow">→</span></div>
     </a>
 
-    <div class="module-card coming-soon" style="--card-color:#3b9eff;--card-glow:rgba(59,158,255,.06)">
-      <div class="mc-badge">Neuro Guide</div>
-      <div class="mc-title">Paciente<br>Neurocrítico</div>
-      <div class="mc-sub">TCE grave, AVC hemorrágico, hipertensão intracraniana e monitorização neurológica.</div>
-      <div class="mc-topics">
-        <span class="mc-topic">PIC · PPC</span>
-        <span class="mc-topic">AVC</span>
-        <span class="mc-topic">Status epiléptico</span>
-      </div>
-      <div class="mc-cta">Em breve →</div>
+    <div class="grid-divider">
+      <div class="grid-divider-line"></div>
+      <div class="grid-divider-label">Em desenvolvimento</div>
+      <div class="grid-divider-line"></div>
     </div>
 
-    <div class="module-card coming-soon" style="--card-color:#f0a030;--card-glow:rgba(240,160,48,.06)">
-      <div class="mc-badge">Procedimentos</div>
-      <div class="mc-title">Procedimentos<br>de UTI</div>
-      <div class="mc-sub">IOT difícil, acesso central, drenagem torácica, paracentese e pericardiocentese.</div>
-      <div class="mc-topics">
-        <span class="mc-topic">IOT · VNI</span>
-        <span class="mc-topic">Acesso central</span>
-        <span class="mc-topic">POCUS guiado</span>
+    <!-- Neuro Guide -->
+    <div class="card soon"
+         style="--c-accent:#3b9eff;--c-border:rgba(59,158,255,.3);--c-glow:rgba(59,158,255,.08)">
+      <svg class="c-icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#3b9eff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.66Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.66Z"/>
+      </svg>
+      <div class="c-badge"><span class="c-dot"></span>Neuro Guide<span class="soon-tag">em breve</span></div>
+      <div class="c-title">Paciente<br>Neurocrítico</div>
+      <div class="c-sub">TCE grave, AVC hemorrágico, hipertensão intracraniana e monitorização neurológica avançada.</div>
+      <div class="c-tags">
+        <span class="c-tag">PIC · PPC</span>
+        <span class="c-tag">AVC</span>
+        <span class="c-tag">Status epiléptico</span>
       </div>
-      <div class="mc-cta">Em breve →</div>
+      <div class="c-cta">Em breve <span class="c-cta-arrow">→</span></div>
+    </div>
+
+    <!-- Procedimentos -->
+    <div class="card soon"
+         style="--c-accent:#f0a030;--c-border:rgba(240,160,48,.3);--c-glow:rgba(240,160,48,.08)">
+      <svg class="c-icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#f0a030" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/>
+      </svg>
+      <div class="c-badge"><span class="c-dot"></span>Procedimentos<span class="soon-tag">em breve</span></div>
+      <div class="c-title">Procedimentos<br>de UTI</div>
+      <div class="c-sub">IOT difícil, acesso central, drenagem torácica, paracentese e pericardiocentese guiada por POCUS.</div>
+      <div class="c-tags">
+        <span class="c-tag">IOT · VNI</span>
+        <span class="c-tag">Acesso central</span>
+        <span class="c-tag">POCUS guiado</span>
+      </div>
+      <div class="c-cta">Em breve <span class="c-cta-arrow">→</span></div>
     </div>
 
   </div>
 
-  <div class="hub-footer">
-    <div>Material de apoio clínico — não substitui julgamento médico</div>
-    <div style="margin-top:6px;opacity:.6">João H. Peres · César A. Seidler Junior · Atualizado jun/2026</div>
+  <div class="footer">
+    <div>Material de apoio clínico — não substitui julgamento médico individualizado</div>
+    <div style="margin-top:4px;opacity:.55">João H. Peres · César A. Seidler Junior · Atualizado jun/2026</div>
   </div>
+
 </div>
 </body>
 </html>

@@ -10,38 +10,38 @@
 #chart-wrap{margin:16px 0 4px;user-select:none;}
 #quad-svg{width:100%;height:auto;display:block;overflow:visible;}
 
-.q-area{cursor:pointer;transition:opacity .18s;}
-.q-area:hover{opacity:.85;}
-.q-area.active{opacity:1;}
-.q-area:not(.active){opacity:.65;}
-.q-area:not(.active):hover{opacity:.82;}
-
-/* chart loads with all visible */
-.q-area{opacity:1;}
+.q-area{cursor:pointer;transition:opacity .22s,filter .22s;}
+.q-area{opacity:.82;}
+.q-area:hover{opacity:.95;filter:brightness(1.1);}
+.q-area.active{opacity:1;filter:brightness(1.12);}
+.q-area:not(.active).has-active{opacity:.45;filter:brightness(.9);}
 
 /* ── Detail panel ───────────────────────────────────────── */
-.iq-detail{margin-top:12px;border-radius:10px;border:1px solid var(--border);overflow:hidden;}
-.iq-detail-inner{padding:18px 20px;}
-.iq-detail-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-.iq-detail-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.iq-detail-name{font-size:15px;font-weight:600;color:#e8ecf2;}
-.iq-detail-crit{font-family:var(--mono);font-size:11px;color:var(--text2);margin-left:auto;}
-.iq-detail-desc{font-size:13px;color:var(--text);line-height:1.65;margin-bottom:12px;}
-.iq-detail-action-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:6px;}
-.iq-detail-action{font-size:13px;color:var(--text);line-height:1.6;padding:10px 14px;border-radius:8px;border-left:3px solid;}
+.iq-detail{margin-top:16px;border-radius:12px;border:1px solid var(--border);overflow:hidden;animation:fadeUp .18s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.iq-detail-inner{padding:20px 22px;}
+.iq-detail-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.iq-detail-badge{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:3px 8px;border-radius:4px;border:1px solid;white-space:nowrap;margin-top:3px;flex-shrink:0;}
+.iq-detail-name{font-size:15px;font-weight:600;color:#e8ecf2;flex:1;line-height:1.3;}
+.iq-detail-crit{font-family:var(--mono);font-size:10px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);padding:4px 10px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
+.iq-detail-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px;}
+.iq-detail-action-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:8px;}
+.iq-detail-action{font-size:13px;color:var(--text);line-height:1.65;padding:12px 16px;border-radius:8px;border-left:3px solid;}
 
-.iq-detail.d-q1{background:rgba(52,211,153,.04);}
-.iq-detail.d-q1 .iq-detail-dot{background:var(--green);}
-.iq-detail.d-q1 .iq-detail-action{border-color:var(--teal);background:rgba(29,184,138,.07);}
-.iq-detail.d-q2{background:rgba(240,160,48,.04);}
-.iq-detail.d-q2 .iq-detail-dot{background:var(--amber);}
-.iq-detail.d-q2 .iq-detail-action{border-color:var(--amber);background:rgba(240,160,48,.07);}
-.iq-detail.d-q3{background:rgba(232,88,64,.04);}
-.iq-detail.d-q3 .iq-detail-dot{background:var(--coral);}
-.iq-detail.d-q3 .iq-detail-action{border-color:var(--coral);background:rgba(232,88,64,.07);}
-.iq-detail.d-q4{background:rgba(226,75,74,.06);}
-.iq-detail.d-q4 .iq-detail-dot{background:var(--red);}
-.iq-detail.d-q4 .iq-detail-action{border-color:var(--red);background:rgba(226,75,74,.08);}
+.iq-detail.d-q1{background:rgba(29,184,138,.04);border-color:rgba(29,184,138,.2);}
+.iq-detail.d-q1 .iq-detail-badge{color:#1db88a;background:rgba(29,184,138,.1);border-color:rgba(29,184,138,.28);}
+.iq-detail.d-q1 .iq-detail-action{border-color:var(--teal);background:rgba(29,184,138,.06);}
+.iq-detail.d-q2{background:rgba(240,160,48,.04);border-color:rgba(240,160,48,.2);}
+.iq-detail.d-q2 .iq-detail-badge{color:#f0a030;background:rgba(240,160,48,.1);border-color:rgba(240,160,48,.28);}
+.iq-detail.d-q2 .iq-detail-action{border-color:var(--amber);background:rgba(240,160,48,.06);}
+.iq-detail.d-q3{background:rgba(232,88,64,.04);border-color:rgba(232,88,64,.2);}
+.iq-detail.d-q3 .iq-detail-badge{color:#e85840;background:rgba(232,88,64,.1);border-color:rgba(232,88,64,.28);}
+.iq-detail.d-q3 .iq-detail-action{border-color:var(--coral);background:rgba(232,88,64,.06);}
+.iq-detail.d-q4{background:rgba(226,75,74,.05);border-color:rgba(226,75,74,.22);}
+.iq-detail.d-q4 .iq-detail-badge{color:#e24b4a;background:rgba(226,75,74,.1);border-color:rgba(226,75,74,.3);}
+.iq-detail.d-q4 .iq-detail-action{border-color:var(--red);background:rgba(226,75,74,.07);}
+
+.chart-hint{font-family:var(--mono);font-size:10px;color:var(--text3);text-align:center;margin-top:8px;letter-spacing:.04em;}
 </style>
 </head>
 <body data-module="hemo" data-page="quadrantes">
@@ -54,115 +54,139 @@
 
     <div id="chart-wrap">
       <!--
-        SVG viewBox: 560 × 400
-        margins: top=20, right=20, bottom=52, left=60
-        plot area: x=60..540  y=20..348  → w=480, h=328
-        origin (SvcO₂=0, ΔpCO₂=0) at bottom-left of plot
-        midpoint X at 60 + 240 = 300  (SvcO₂ = 70%)
-        midpoint Y at 348 - 164 = 184  (ΔpCO₂ = 6)
+        viewBox 580 × 360
+        margins: top=24 right=20 bottom=56 left=64
+        plot area: x1=64 x2=560 y1=24 y2=304  → w=496 h=280
+        midX = 64 + 248 = 312  (SvcO₂ = 70%)
+        midY = 24 + 140 = 164  (Δ pCO₂ = 6)
       -->
-      <!--
-        viewBox 560 × 340
-        margins: top=16 right=16 bottom=48 left=56
-        plot area: x1=56 x2=544 y1=16 y2=292  → w=488 h=276
-        midX = 56 + 244 = 300  (SvcO₂ threshold 70%)
-        midY = 16 + 138 = 154  (Δ pCO₂ threshold 6)
-      -->
-      <svg id="quad-svg" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg"
+      <svg id="quad-svg" viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg"
            font-family="'IBM Plex Mono', monospace">
-
         <defs>
-          <radialGradient id="gq4" cx="30%" cy="30%" r="80%">
-            <stop offset="0%" stop-color="#e24b4a" stop-opacity=".28"/>
+          <!-- Background fills per quadrant — subtle gradient from center outward -->
+          <linearGradient id="gq4h" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#e24b4a" stop-opacity=".22"/>
             <stop offset="100%" stop-color="#e24b4a" stop-opacity=".06"/>
-          </radialGradient>
-          <radialGradient id="gq3" cx="70%" cy="30%" r="80%">
-            <stop offset="0%" stop-color="#e85840" stop-opacity=".20"/>
+          </linearGradient>
+          <linearGradient id="gq3h" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#e85840" stop-opacity=".14"/>
             <stop offset="100%" stop-color="#e85840" stop-opacity=".04"/>
-          </radialGradient>
-          <radialGradient id="gq2" cx="30%" cy="70%" r="80%">
-            <stop offset="0%" stop-color="#f0a030" stop-opacity=".20"/>
+          </linearGradient>
+          <linearGradient id="gq2h" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f0a030" stop-opacity=".18"/>
             <stop offset="100%" stop-color="#f0a030" stop-opacity=".04"/>
-          </radialGradient>
-          <radialGradient id="gq1" cx="70%" cy="70%" r="80%">
-            <stop offset="0%" stop-color="#34d399" stop-opacity=".20"/>
-            <stop offset="100%" stop-color="#34d399" stop-opacity=".04"/>
-          </radialGradient>
-          <marker id="arrowX" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-            <path d="M0,1 L6,3.5 L0,6 Z" fill="#3a4555"/>
+          </linearGradient>
+          <linearGradient id="gq1h" x1="100%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#1db88a" stop-opacity=".18"/>
+            <stop offset="100%" stop-color="#1db88a" stop-opacity=".04"/>
+          </linearGradient>
+          <!-- Stroke glow for active quadrant border -->
+          <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <marker id="arrowX" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,1.5 L7,4 L0,6.5 Z" fill="#3a4555"/>
           </marker>
-          <marker id="arrowY" markerWidth="7" markerHeight="7" refX="3.5" refY="0" orient="auto">
-            <path d="M1,6 L3.5,0 L6,6 Z" fill="#3a4555"/>
+          <marker id="arrowY" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto">
+            <path d="M1.5,7 L4,0 L6.5,7 Z" fill="#3a4555"/>
           </marker>
         </defs>
 
-        <!-- ── Quadrant areas ── -->
-        <rect class="q-area" id="area-q4" data-q="q4" x="56" y="16" width="244" height="138" fill="url(#gq4)" rx="3"/>
-        <rect class="q-area" id="area-q3" data-q="q3" x="300" y="16" width="244" height="138" fill="url(#gq3)" rx="3"/>
-        <rect class="q-area" id="area-q2" data-q="q2" x="56" y="154" width="244" height="138" fill="url(#gq2)" rx="3"/>
-        <rect class="q-area" id="area-q1" data-q="q1" x="300" y="154" width="244" height="138" fill="url(#gq1)" rx="3"/>
+        <!-- ── Plot area background ── -->
+        <rect x="64" y="24" width="496" height="280" fill="#131619" rx="4"/>
+
+        <!-- ── Quadrant fills ── -->
+        <rect class="q-area" id="area-q4" data-q="q4"
+              x="64" y="24" width="248" height="140"
+              fill="url(#gq4h)" rx="4"/>
+        <rect class="q-area" id="area-q3" data-q="q3"
+              x="312" y="24" width="248" height="140"
+              fill="url(#gq3h)" rx="4"/>
+        <rect class="q-area" id="area-q2" data-q="q2"
+              x="64" y="164" width="248" height="140"
+              fill="url(#gq2h)" rx="4"/>
+        <rect class="q-area" id="area-q1" data-q="q1"
+              x="312" y="164" width="248" height="140"
+              fill="url(#gq1h)" rx="4"/>
+
+        <!-- ── Subtle inner borders per quadrant ── -->
+        <rect x="64"  y="24"  width="248" height="140" fill="none" stroke="#e24b4a" stroke-opacity=".12" stroke-width="1"/>
+        <rect x="312" y="24"  width="248" height="140" fill="none" stroke="#e85840" stroke-opacity=".1"  stroke-width="1"/>
+        <rect x="64"  y="164" width="248" height="140" fill="none" stroke="#f0a030" stroke-opacity=".1"  stroke-width="1"/>
+        <rect x="312" y="164" width="248" height="140" fill="none" stroke="#1db88a" stroke-opacity=".1"  stroke-width="1"/>
 
         <!-- ── Threshold lines ── -->
-        <line x1="300" y1="16"  x2="300" y2="292" stroke="#3a4555" stroke-width="1.2" stroke-dasharray="5 3"/>
-        <line x1="56"  y1="154" x2="544" y2="154" stroke="#3a4555" stroke-width="1.2" stroke-dasharray="5 3"/>
+        <line x1="312" y1="24"  x2="312" y2="304" stroke="#2a3040" stroke-width="1.5" stroke-dasharray="6 3"/>
+        <line x1="64"  y1="164" x2="560" y2="164" stroke="#2a3040" stroke-width="1.5" stroke-dasharray="6 3"/>
 
         <!-- ── Axes ── -->
-        <line x1="56" y1="292" x2="548" y2="292" stroke="#4a5568" stroke-width="1.8" marker-end="url(#arrowX)"/>
-        <line x1="56" y1="292" x2="56"  y2="12"  stroke="#4a5568" stroke-width="1.8" marker-end="url(#arrowY)"/>
+        <line x1="64" y1="304" x2="564" y2="304" stroke="#3a4555" stroke-width="1.6" marker-end="url(#arrowX)"/>
+        <line x1="64" y1="304" x2="64"  y2="20"  stroke="#3a4555" stroke-width="1.6" marker-end="url(#arrowY)"/>
 
         <!-- ── X axis ticks + labels ── -->
-        <line x1="56"  y1="292" x2="56"  y2="299" stroke="#4a5568" stroke-width="1.5"/>
-        <line x1="300" y1="292" x2="300" y2="299" stroke="#4a5568" stroke-width="1.5"/>
-        <line x1="544" y1="292" x2="544" y2="299" stroke="#4a5568" stroke-width="1.5"/>
-        <text x="56"  y="312" text-anchor="middle" font-size="10" fill="#5a6478">baixa</text>
-        <text x="300" y="312" text-anchor="middle" font-size="11" fill="#a0aab8" font-weight="700">70%</text>
-        <text x="544" y="312" text-anchor="middle" font-size="10" fill="#5a6478">alta</text>
-        <text x="300" y="330" text-anchor="middle" font-size="11" fill="#8892a4" font-weight="600" letter-spacing=".06em">SvcO₂</text>
+        <line x1="64"  y1="304" x2="64"  y2="311" stroke="#3a4555" stroke-width="1.4"/>
+        <line x1="312" y1="304" x2="312" y2="311" stroke="#3a4555" stroke-width="1.4"/>
+        <line x1="560" y1="304" x2="560" y2="311" stroke="#3a4555" stroke-width="1.4"/>
+        <text x="64"  y="324" text-anchor="middle" font-size="10" fill="#5a6478">baixa</text>
+        <text x="312" y="324" text-anchor="middle" font-size="11" fill="#a0aab8" font-weight="700">70%</text>
+        <text x="560" y="324" text-anchor="middle" font-size="10" fill="#5a6478">alta</text>
+        <text x="312" y="344" text-anchor="middle" font-size="11" fill="#6a7486" font-weight="600" letter-spacing=".1em">SvcO₂</text>
 
         <!-- ── Y axis ticks + labels ── -->
-        <line x1="56" y1="292" x2="49" y2="292" stroke="#4a5568" stroke-width="1.5"/>
-        <line x1="56" y1="154" x2="49" y2="154" stroke="#4a5568" stroke-width="1.5"/>
-        <line x1="56" y1="16"  x2="49" y2="16"  stroke="#4a5568" stroke-width="1.5"/>
-        <text x="45" y="296" text-anchor="end" font-size="10" fill="#5a6478">0</text>
-        <text x="45" y="158" text-anchor="end" font-size="11" fill="#a0aab8" font-weight="700">6</text>
-        <text x="45" y="20"  text-anchor="end" font-size="10" fill="#5a6478">↑</text>
-        <text transform="rotate(-90,14,154)" x="14" y="154" text-anchor="middle"
-              font-size="11" fill="#8892a4" font-weight="600" letter-spacing=".06em">Δ pCO₂ (mmHg)</text>
+        <line x1="64" y1="304" x2="57" y2="304" stroke="#3a4555" stroke-width="1.4"/>
+        <line x1="64" y1="164" x2="57" y2="164" stroke="#3a4555" stroke-width="1.4"/>
+        <line x1="64" y1="24"  x2="57" y2="24"  stroke="#3a4555" stroke-width="1.4"/>
+        <text x="52" y="308" text-anchor="end" font-size="10" fill="#5a6478">0</text>
+        <text x="52" y="168" text-anchor="end" font-size="11" fill="#a0aab8" font-weight="700">6</text>
+        <text x="52" y="28"  text-anchor="end" font-size="10" fill="#5a6478">12</text>
+        <text transform="rotate(-90,16,164)" x="16" y="164" text-anchor="middle"
+              font-size="11" fill="#6a7486" font-weight="600" letter-spacing=".1em">Δ pCO₂ (mmHg)</text>
 
-        <!-- ── Quadrant labels — centered in each cell ── -->
-        <!-- Q4 center: x=178, y=85 -->
-        <text x="178" y="60"  text-anchor="middle" font-size="9"  fill="#e24b4a" font-weight="700" letter-spacing=".09em">Q4 — BAIXO DÉBITO</text>
-        <text x="178" y="78"  text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Choque confirmado</text>
-        <text x="178" y="96"  text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ &lt; 70%  ·  Δ pCO₂ ≥ 6</text>
-        <text x="178" y="138" text-anchor="middle" font-size="9"  fill="#e24b4a" opacity=".5">↖ pior cenário</text>
+        <!-- ── Quadrant labels ──────────────────────────────────── -->
 
-        <!-- Q3 center: x=422, y=85 -->
-        <text x="422" y="60"  text-anchor="middle" font-size="9"  fill="#e85840" font-weight="700" letter-spacing=".09em">Q3 — FALSA SEGURANÇA</text>
-        <text x="422" y="78"  text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Cenário traiçoeiro</text>
-        <text x="422" y="96"  text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ ≥ 70%  ·  Δ pCO₂ ≥ 6</text>
+        <!-- Q4  center x=188, y=94 -->
+        <text x="188" y="56"  text-anchor="middle" font-size="8.5" fill="#e24b4a" font-weight="700" letter-spacing=".12em" opacity=".9">Q4 — BAIXO DÉBITO</text>
+        <text x="188" y="76"  text-anchor="middle" font-size="15"  fill="#e8ecf2" font-weight="600">Choque confirmado</text>
+        <text x="188" y="94"  text-anchor="middle" font-size="10"  fill="#8892a4">SvcO₂ &lt; 70% · Δ pCO₂ ≥ 6</text>
+        <!-- urgency marker -->
+        <rect x="144" y="110" width="88" height="18" rx="4" fill="rgba(226,75,74,.12)" stroke="rgba(226,75,74,.3)" stroke-width=".8"/>
+        <text x="188" y="122" text-anchor="middle" font-size="8.5" fill="#e24b4a" font-weight="600" letter-spacing=".06em">↑ maior urgência</text>
 
-        <!-- Q2 center: x=178, y=223 -->
-        <text x="178" y="198" text-anchor="middle" font-size="9"  fill="#f0a030" font-weight="700" letter-spacing=".09em">Q2 — OFERTA</text>
-        <text x="178" y="216" text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Problema na oferta</text>
-        <text x="178" y="234" text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ &lt; 70%  ·  Δ pCO₂ &lt; 6</text>
+        <!-- Q3  center x=436, y=94 -->
+        <text x="436" y="56"  text-anchor="middle" font-size="8.5" fill="#e85840" font-weight="700" letter-spacing=".12em" opacity=".9">Q3 — FALSA SEGURANÇA</text>
+        <text x="436" y="76"  text-anchor="middle" font-size="15"  fill="#e8ecf2" font-weight="600">Cenário traiçoeiro</text>
+        <text x="436" y="94"  text-anchor="middle" font-size="10"  fill="#8892a4">SvcO₂ ≥ 70% · Δ pCO₂ ≥ 6</text>
+        <rect x="388" y="110" width="96" height="18" rx="4" fill="rgba(232,88,64,.1)" stroke="rgba(232,88,64,.28)" stroke-width=".8"/>
+        <text x="436" y="122" text-anchor="middle" font-size="8.5" fill="#e85840" font-weight="600" letter-spacing=".06em">⚠ não confiar na SvcO₂</text>
 
-        <!-- Q1 center: x=422, y=223 -->
-        <text x="422" y="198" text-anchor="middle" font-size="9"  fill="#34d399" font-weight="700" letter-spacing=".09em">Q1 — ADEQUADO</text>
-        <text x="422" y="216" text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Ressuscitação ok</text>
-        <text x="422" y="234" text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ ≥ 70%  ·  Δ pCO₂ &lt; 6</text>
+        <!-- Q2  center x=188, y=234 -->
+        <text x="188" y="196" text-anchor="middle" font-size="8.5" fill="#f0a030" font-weight="700" letter-spacing=".12em" opacity=".9">Q2 — OFERTA</text>
+        <text x="188" y="216" text-anchor="middle" font-size="15"  fill="#e8ecf2" font-weight="600">Problema na oferta</text>
+        <text x="188" y="234" text-anchor="middle" font-size="10"  fill="#8892a4">SvcO₂ &lt; 70% · Δ pCO₂ &lt; 6</text>
+        <rect x="140" y="250" width="96" height="18" rx="4" fill="rgba(240,160,48,.1)" stroke="rgba(240,160,48,.28)" stroke-width=".8"/>
+        <text x="188" y="262" text-anchor="middle" font-size="8.5" fill="#f0a030" font-weight="600" letter-spacing=".06em">Hb · SaO₂ · DC</text>
 
-        <!-- ── Threshold tick annotations ── -->
-        <text x="304" y="149" font-size="9" fill="#5a6478" font-style="italic">Δ pCO₂ = 6</text>
-        <text x="303" y="290" font-size="9" fill="#5a6478" font-style="italic" text-anchor="middle">SvcO₂ = 70%</text>
+        <!-- Q1  center x=436, y=234 -->
+        <text x="436" y="196" text-anchor="middle" font-size="8.5" fill="#1db88a" font-weight="700" letter-spacing=".12em" opacity=".9">Q1 — ADEQUADO</text>
+        <text x="436" y="216" text-anchor="middle" font-size="15"  fill="#e8ecf2" font-weight="600">Ressuscitação ok</text>
+        <text x="436" y="234" text-anchor="middle" font-size="10"  fill="#8892a4">SvcO₂ ≥ 70% · Δ pCO₂ &lt; 6</text>
+        <rect x="392" y="250" width="88" height="18" rx="4" fill="rgba(29,184,138,.1)" stroke="rgba(29,184,138,.28)" stroke-width=".8"/>
+        <text x="436" y="262" text-anchor="middle" font-size="8.5" fill="#1db88a" font-weight="600" letter-spacing=".06em">✓ manter monitoramento</text>
+
+        <!-- ── Threshold annotations ── -->
+        <text x="316" y="159" font-size="8.5" fill="#3a4555" font-style="italic">Δ pCO₂ = 6 mmHg</text>
+        <text x="314" y="300" font-size="8.5" fill="#3a4555" font-style="italic">SvcO₂ = 70%</text>
 
       </svg>
     </div>
+    <p class="chart-hint">toque em um quadrante para ver mecanismo e conduta</p>
 
     <!-- Detail panel -->
     <div id="iqDetail" class="iq-detail" style="display:none;">
       <div class="iq-detail-inner">
         <div class="iq-detail-header">
-          <div class="iq-detail-dot" id="detDot"></div>
+          <div class="iq-detail-badge" id="detBadge"></div>
           <div class="iq-detail-name" id="detName"></div>
           <div class="iq-detail-crit" id="detCrit"></div>
         </div>
@@ -210,53 +234,67 @@
 const data = {
   q1: {
     cls: 'd-q1',
-    name: 'Q1 — Ressuscitação adequada',
+    badge: 'Q1 — Adequado',
+    name: 'Ressuscitação ok',
     crit: 'SvcO₂ ≥ 70% · Δ pCO₂ < 6',
     desc: 'Oferta de O₂ preservada e fluxo tecidual adequado. Os dois parâmetros excluem hipoperfusão global significativa. Se lactato ainda elevado, considerar hiperlactatemia tipo B (clearance prejudicado, hipermetabolismo).',
     action: 'Manter monitoramento clínico. Repetir lactato em 2 h. Verificar PAM, diurese e enchimento capilar. Se lactato persistentemente alto sem hipoperfusão — investigar causa tipo B.'
   },
   q2: {
     cls: 'd-q2',
-    name: 'Q2 — Problema na oferta de O₂',
+    badge: 'Q2 — Oferta',
+    name: 'Problema na oferta de O₂',
     crit: 'SvcO₂ < 70% · Δ pCO₂ < 6',
     desc: 'Tecidos extraindo mais O₂ que o normal, mas o fluxo sanguíneo tecidual está mantido (Δ pCO₂ ok). O problema está na oferta: queda da Hb, queda da SaO₂ ou queda do débito cardíaco — não no fluxo em si.',
     action: 'Investigar tríade da oferta: Hemoglobina (transfundir se Hb < 7–8 g/dL) · SaO₂ (otimizar FiO₂, revisar VM) · Débito cardíaco (eco — inotrópico se FE reduzida).'
   },
   q3: {
     cls: 'd-q3',
-    name: 'Q3 — Falsa segurança',
+    badge: 'Q3 — Falsa segurança',
+    name: 'Cenário traiçoeiro',
     crit: 'SvcO₂ ≥ 70% · Δ pCO₂ ≥ 6',
-    desc: 'Cenário mais traiçoeiro. SvcO₂ "normal" engana: pode haver shunting arteriovenoso (sepse hiperdinâmica), hipóxia citopática (mitocôndria não consome O₂) ou foco infeccioso não controlado. O Δ pCO₂ ≥ 6 revela que o fluxo tecidual está inadequado.',
+    desc: 'Cenário mais traiçoeiro. SvcO₂ "normal" engana: pode haver shunting arteriovenoso (sepse hiperdинâmica), hipóxia citopática (mitocôndria não consome O₂) ou foco infeccioso não controlado. O Δ pCO₂ ≥ 6 revela que o fluxo tecidual está inadequado.',
     action: 'Não se tranquilizar com a SvcO₂. Reavaliar lactato seriado, eco cardíaco (função VE, DC). Controlar foco infeccioso. Otimizar vasopressor; considerar dobutamina se baixo DC confirmado. Repetir gasometria venosa em 1–2 h.'
   },
   q4: {
     cls: 'd-q4',
-    name: 'Q4 — Baixo débito / Choque confirmado',
+    badge: 'Q4 — Baixo débito',
+    name: 'Choque confirmado',
     crit: 'SvcO₂ < 70% · Δ pCO₂ ≥ 6',
-    desc: 'Ambos alterados: oferta inadequada E fluxo tecidual insuficiente. Maior urgência clínica — é o padrão clássico de choque com baixo débito. A combinação implica que os tecidos estão ao mesmo tempo privados de O₂ e acumulando CO₂.',
+    desc: 'Ambos alterados: oferta inadequada E fluxo tecidual insuficiente. Maiorurgência clínica — é o padrão clássico de choque com baixo débito. A combinação implica que os tecidos estão ao mesmo tempo privados de O₂ e acumulando CO₂.',
     action: 'Identificar mecanismo via POCUS (RUSH): hipovolemia → testar fluido-responsividade (PLR + VTI) · disfunção VE → inotrópico (dobutamina) · vasoplegia → vasopressor (noradrenalina) · obstrutivo → tratar causa (tamponamento, TEP). Reavaliação a cada 30–60 min.'
   }
 };
 
+const areas = document.querySelectorAll('.q-area');
+let activeQ = null;
+
 function selectQ(q) {
   const d = data[q];
-  // dim all, highlight selected
-  document.querySelectorAll('.q-area').forEach(a => a.classList.remove('active'));
+  activeQ = q;
+
+  // update area states
+  areas.forEach(a => {
+    a.classList.remove('active');
+    a.classList.add('has-active');
+  });
   document.getElementById('area-' + q).classList.add('active');
-  // show panel
+  document.getElementById('area-' + q).classList.remove('has-active');
+
+  // update panel
   const panel = document.getElementById('iqDetail');
   panel.className = 'iq-detail ' + d.cls;
   panel.style.display = 'block';
+  document.getElementById('detBadge').textContent = d.badge;
   document.getElementById('detName').textContent = d.name;
   document.getElementById('detCrit').textContent = d.crit;
   document.getElementById('detDesc').textContent = d.desc;
   document.getElementById('detAction').textContent = d.action;
-  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  panel.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 }
 
-document.querySelectorAll('.q-area').forEach(el => {
+areas.forEach(el => {
   el.addEventListener('click', () => selectQ(el.dataset.q));
-  el.style.cursor = 'pointer';
 });
 </script>
 </body>

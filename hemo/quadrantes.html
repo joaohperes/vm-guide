@@ -61,118 +61,99 @@
         midpoint X at 60 + 240 = 300  (SvcO₂ = 70%)
         midpoint Y at 348 - 164 = 184  (ΔpCO₂ = 6)
       -->
-      <svg id="quad-svg" viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg"
+      <!--
+        viewBox 560 × 340
+        margins: top=16 right=16 bottom=48 left=56
+        plot area: x1=56 x2=544 y1=16 y2=292  → w=488 h=276
+        midX = 56 + 244 = 300  (SvcO₂ threshold 70%)
+        midY = 16 + 138 = 154  (Δ pCO₂ threshold 6)
+      -->
+      <svg id="quad-svg" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg"
            font-family="'IBM Plex Mono', monospace">
 
         <defs>
-          <!-- subtle radial gradient per quadrant for depth -->
-          <radialGradient id="gq4" cx="25%" cy="25%" r="70%">
-            <stop offset="0%" stop-color="#e24b4a" stop-opacity=".22"/>
+          <radialGradient id="gq4" cx="30%" cy="30%" r="80%">
+            <stop offset="0%" stop-color="#e24b4a" stop-opacity=".28"/>
             <stop offset="100%" stop-color="#e24b4a" stop-opacity=".06"/>
           </radialGradient>
-          <radialGradient id="gq3" cx="75%" cy="25%" r="70%">
-            <stop offset="0%" stop-color="#e85840" stop-opacity=".16"/>
+          <radialGradient id="gq3" cx="70%" cy="30%" r="80%">
+            <stop offset="0%" stop-color="#e85840" stop-opacity=".20"/>
             <stop offset="100%" stop-color="#e85840" stop-opacity=".04"/>
           </radialGradient>
-          <radialGradient id="gq2" cx="25%" cy="75%" r="70%">
-            <stop offset="0%" stop-color="#f0a030" stop-opacity=".16"/>
+          <radialGradient id="gq2" cx="30%" cy="70%" r="80%">
+            <stop offset="0%" stop-color="#f0a030" stop-opacity=".20"/>
             <stop offset="100%" stop-color="#f0a030" stop-opacity=".04"/>
           </radialGradient>
-          <radialGradient id="gq1" cx="75%" cy="75%" r="70%">
-            <stop offset="0%" stop-color="#34d399" stop-opacity=".16"/>
+          <radialGradient id="gq1" cx="70%" cy="70%" r="80%">
+            <stop offset="0%" stop-color="#34d399" stop-opacity=".20"/>
             <stop offset="100%" stop-color="#34d399" stop-opacity=".04"/>
           </radialGradient>
-          <marker id="arrowX" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6 Z" fill="#3a4555"/>
+          <marker id="arrowX" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <path d="M0,1 L6,3.5 L0,6 Z" fill="#3a4555"/>
           </marker>
-          <marker id="arrowY" markerWidth="6" markerHeight="6" refX="3" refY="0" orient="auto">
-            <path d="M0,6 L3,0 L6,6 Z" fill="#3a4555"/>
+          <marker id="arrowY" markerWidth="7" markerHeight="7" refX="3.5" refY="0" orient="auto">
+            <path d="M1,6 L3.5,0 L6,6 Z" fill="#3a4555"/>
           </marker>
         </defs>
 
-        <!-- ── Quadrant fill areas (clickable) ── -->
-        <!-- Q4: top-left  — SvcO₂ low + ΔpCO₂ high -->
-        <rect class="q-area" id="area-q4" data-q="q4"
-              x="60" y="20" width="240" height="164"
-              fill="url(#gq4)" rx="4"/>
-        <!-- Q3: top-right — SvcO₂ high + ΔpCO₂ high -->
-        <rect class="q-area" id="area-q3" data-q="q3"
-              x="300" y="20" width="240" height="164"
-              fill="url(#gq3)" rx="4"/>
-        <!-- Q2: bottom-left — SvcO₂ low + ΔpCO₂ low -->
-        <rect class="q-area" id="area-q2" data-q="q2"
-              x="60" y="184" width="240" height="164"
-              fill="url(#gq2)" rx="4"/>
-        <!-- Q1: bottom-right — SvcO₂ high + ΔpCO₂ low -->
-        <rect class="q-area" id="area-q1" data-q="q1"
-              x="300" y="184" width="240" height="164"
-              fill="url(#gq1)" rx="4"/>
+        <!-- ── Quadrant areas ── -->
+        <rect class="q-area" id="area-q4" data-q="q4" x="56" y="16" width="244" height="138" fill="url(#gq4)" rx="3"/>
+        <rect class="q-area" id="area-q3" data-q="q3" x="300" y="16" width="244" height="138" fill="url(#gq3)" rx="3"/>
+        <rect class="q-area" id="area-q2" data-q="q2" x="56" y="154" width="244" height="138" fill="url(#gq2)" rx="3"/>
+        <rect class="q-area" id="area-q1" data-q="q1" x="300" y="154" width="244" height="138" fill="url(#gq1)" rx="3"/>
 
-        <!-- ── Grid cross lines (at threshold) ── -->
-        <!-- vertical at SvcO₂=70% (x=300) -->
-        <line x1="300" y1="20" x2="300" y2="348" stroke="#3a4555" stroke-width="1" stroke-dasharray="4 3"/>
-        <!-- horizontal at ΔpCO₂=6 (y=184) -->
-        <line x1="60" y1="184" x2="540" y2="184" stroke="#3a4555" stroke-width="1" stroke-dasharray="4 3"/>
+        <!-- ── Threshold lines ── -->
+        <line x1="300" y1="16"  x2="300" y2="292" stroke="#3a4555" stroke-width="1.2" stroke-dasharray="5 3"/>
+        <line x1="56"  y1="154" x2="544" y2="154" stroke="#3a4555" stroke-width="1.2" stroke-dasharray="5 3"/>
 
         <!-- ── Axes ── -->
-        <!-- X axis -->
-        <line x1="60" y1="348" x2="544" y2="348" stroke="#3a4555" stroke-width="1.5" marker-end="url(#arrowX)"/>
-        <!-- Y axis -->
-        <line x1="60" y1="348" x2="60" y2="16" stroke="#3a4555" stroke-width="1.5" marker-end="url(#arrowY)"/>
+        <line x1="56" y1="292" x2="548" y2="292" stroke="#4a5568" stroke-width="1.8" marker-end="url(#arrowX)"/>
+        <line x1="56" y1="292" x2="56"  y2="12"  stroke="#4a5568" stroke-width="1.8" marker-end="url(#arrowY)"/>
 
-        <!-- ── Tick marks & labels ── -->
-        <!-- X ticks -->
-        <line x1="300" y1="348" x2="300" y2="354" stroke="#3a4555" stroke-width="1.5"/>
-        <line x1="540" y1="348" x2="540" y2="354" stroke="#3a4555" stroke-width="1.5"/>
-        <line x1="60"  y1="348" x2="60"  y2="354" stroke="#3a4555" stroke-width="1.5"/>
+        <!-- ── X axis ticks + labels ── -->
+        <line x1="56"  y1="292" x2="56"  y2="299" stroke="#4a5568" stroke-width="1.5"/>
+        <line x1="300" y1="292" x2="300" y2="299" stroke="#4a5568" stroke-width="1.5"/>
+        <line x1="544" y1="292" x2="544" y2="299" stroke="#4a5568" stroke-width="1.5"/>
+        <text x="56"  y="312" text-anchor="middle" font-size="10" fill="#5a6478">baixa</text>
+        <text x="300" y="312" text-anchor="middle" font-size="11" fill="#a0aab8" font-weight="700">70%</text>
+        <text x="544" y="312" text-anchor="middle" font-size="10" fill="#5a6478">alta</text>
+        <text x="300" y="330" text-anchor="middle" font-size="11" fill="#8892a4" font-weight="600" letter-spacing=".06em">SvcO₂</text>
 
-        <text x="60"  y="368" text-anchor="middle" font-size="10" fill="#5a6478">baixa</text>
-        <text x="300" y="368" text-anchor="middle" font-size="10" fill="#8892a4" font-weight="600">70%</text>
-        <text x="540" y="368" text-anchor="middle" font-size="10" fill="#5a6478">alta</text>
+        <!-- ── Y axis ticks + labels ── -->
+        <line x1="56" y1="292" x2="49" y2="292" stroke="#4a5568" stroke-width="1.5"/>
+        <line x1="56" y1="154" x2="49" y2="154" stroke="#4a5568" stroke-width="1.5"/>
+        <line x1="56" y1="16"  x2="49" y2="16"  stroke="#4a5568" stroke-width="1.5"/>
+        <text x="45" y="296" text-anchor="end" font-size="10" fill="#5a6478">0</text>
+        <text x="45" y="158" text-anchor="end" font-size="11" fill="#a0aab8" font-weight="700">6</text>
+        <text x="45" y="20"  text-anchor="end" font-size="10" fill="#5a6478">↑</text>
+        <text transform="rotate(-90,14,154)" x="14" y="154" text-anchor="middle"
+              font-size="11" fill="#8892a4" font-weight="600" letter-spacing=".06em">Δ pCO₂ (mmHg)</text>
 
-        <!-- X axis label -->
-        <text x="300" y="390" text-anchor="middle" font-size="11" fill="#8892a4" font-weight="600" letter-spacing="0.05em">SvcO₂</text>
+        <!-- ── Quadrant labels — centered in each cell ── -->
+        <!-- Q4 center: x=178, y=85 -->
+        <text x="178" y="60"  text-anchor="middle" font-size="9"  fill="#e24b4a" font-weight="700" letter-spacing=".09em">Q4 — BAIXO DÉBITO</text>
+        <text x="178" y="78"  text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Choque confirmado</text>
+        <text x="178" y="96"  text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ &lt; 70%  ·  Δ pCO₂ ≥ 6</text>
+        <text x="178" y="138" text-anchor="middle" font-size="9"  fill="#e24b4a" opacity=".5">↖ pior cenário</text>
 
-        <!-- Y ticks -->
-        <line x1="60" y1="184" x2="54" y2="184" stroke="#3a4555" stroke-width="1.5"/>
-        <line x1="60" y1="20"  x2="54" y2="20"  stroke="#3a4555" stroke-width="1.5"/>
-        <line x1="60" y1="348" x2="54" y2="348" stroke="#3a4555" stroke-width="1.5"/>
+        <!-- Q3 center: x=422, y=85 -->
+        <text x="422" y="60"  text-anchor="middle" font-size="9"  fill="#e85840" font-weight="700" letter-spacing=".09em">Q3 — FALSA SEGURANÇA</text>
+        <text x="422" y="78"  text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Cenário traiçoeiro</text>
+        <text x="422" y="96"  text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ ≥ 70%  ·  Δ pCO₂ ≥ 6</text>
 
-        <text x="50" y="352" text-anchor="end" font-size="10" fill="#5a6478">0</text>
-        <text x="50" y="188" text-anchor="end" font-size="10" fill="#8892a4" font-weight="600">6</text>
-        <text x="50" y="24"  text-anchor="end" font-size="10" fill="#5a6478">alto</text>
+        <!-- Q2 center: x=178, y=223 -->
+        <text x="178" y="198" text-anchor="middle" font-size="9"  fill="#f0a030" font-weight="700" letter-spacing=".09em">Q2 — OFERTA</text>
+        <text x="178" y="216" text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Problema na oferta</text>
+        <text x="178" y="234" text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ &lt; 70%  ·  Δ pCO₂ &lt; 6</text>
 
-        <!-- Y axis label (rotated) -->
-        <text transform="rotate(-90,18,184)" x="18" y="184" text-anchor="middle"
-              font-size="11" fill="#8892a4" font-weight="600" letter-spacing="0.05em">Δ pCO₂ (mmHg)</text>
+        <!-- Q1 center: x=422, y=223 -->
+        <text x="422" y="198" text-anchor="middle" font-size="9"  fill="#34d399" font-weight="700" letter-spacing=".09em">Q1 — ADEQUADO</text>
+        <text x="422" y="216" text-anchor="middle" font-size="14" fill="#e8ecf2" font-weight="600">Ressuscitação ok</text>
+        <text x="422" y="234" text-anchor="middle" font-size="10" fill="#8892a4">SvcO₂ ≥ 70%  ·  Δ pCO₂ &lt; 6</text>
 
-        <!-- ── Quadrant labels ── -->
-        <!-- Q4: top-left -->
-        <text x="76" y="44" font-size="9" fill="#e24b4a" font-weight="700" letter-spacing="0.08em">Q4 — BAIXO DÉBITO</text>
-        <text x="76" y="60" font-size="13" fill="#e8ecf2" font-weight="600">Choque confirmado</text>
-        <text x="76" y="76" font-size="10" fill="#8892a4">SvcO₂ &lt; 70% · Δ pCO₂ ≥ 6</text>
-
-        <!-- Q3: top-right -->
-        <text x="316" y="44" font-size="9" fill="#e85840" font-weight="700" letter-spacing="0.08em">Q3 — FALSA SEGURANÇA</text>
-        <text x="316" y="60" font-size="13" fill="#e8ecf2" font-weight="600">Cenário mais traiçoeiro</text>
-        <text x="316" y="76" font-size="10" fill="#8892a4">SvcO₂ ≥ 70% · Δ pCO₂ ≥ 6</text>
-
-        <!-- Q2: bottom-left -->
-        <text x="76" y="208" font-size="9" fill="#f0a030" font-weight="700" letter-spacing="0.08em">Q2 — OFERTA</text>
-        <text x="76" y="224" font-size="13" fill="#e8ecf2" font-weight="600">Problema na oferta de O₂</text>
-        <text x="76" y="240" font-size="10" fill="#8892a4">SvcO₂ &lt; 70% · Δ pCO₂ &lt; 6</text>
-
-        <!-- Q1: bottom-right -->
-        <text x="316" y="208" font-size="9" fill="#34d399" font-weight="700" letter-spacing="0.08em">Q1 — ADEQUADO</text>
-        <text x="316" y="224" font-size="13" fill="#e8ecf2" font-weight="600">Ressuscitação adequada</text>
-        <text x="316" y="240" font-size="10" fill="#8892a4">SvcO₂ ≥ 70% · Δ pCO₂ &lt; 6</text>
-
-        <!-- ── Threshold annotations ── -->
-        <text x="304" y="179" font-size="9" fill="#5a6478" font-style="italic">Δ pCO₂ = 6 mmHg</text>
-        <text x="303" y="364" font-size="9" fill="#5a6478" font-style="italic">SvcO₂ = 70%</text>
-
-        <!-- ── "pior" arrow annotation Q4 corner ── -->
-        <text x="175" y="140" text-anchor="middle" font-size="10" fill="#e24b4a" opacity=".55">↖ pior cenário</text>
+        <!-- ── Threshold tick annotations ── -->
+        <text x="304" y="149" font-size="9" fill="#5a6478" font-style="italic">Δ pCO₂ = 6</text>
+        <text x="303" y="290" font-size="9" fill="#5a6478" font-style="italic" text-anchor="middle">SvcO₂ = 70%</text>
 
       </svg>
     </div>

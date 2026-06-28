@@ -7,17 +7,17 @@
 <link rel="stylesheet" href="../assets/styles.css">
 <style>
 /* ── Interactive quad map ───────────────────────────────── */
-.iq-wrap{position:relative;margin:16px 0 4px;}
+.iq-wrap{margin:16px 0 4px;display:grid;grid-template-columns:28px 1fr;grid-template-rows:auto auto auto;gap:0 6px;}
 
-/* axis labels */
-.iq-y-label{position:absolute;left:-32px;top:50%;transform:translateY(-50%) rotate(-90deg);
-  font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;
-  letter-spacing:.1em;color:var(--text2);white-space:nowrap;}
-.iq-x-label{text-align:center;font-family:var(--mono);font-size:10px;font-weight:600;
-  text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-top:6px;}
+/* Y-axis label column */
+.iq-y-col{grid-column:1;grid-row:1/span 3;display:flex;align-items:center;justify-content:center;}
+.iq-y-label{writing-mode:vertical-rl;transform:rotate(180deg);
+  font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text2);white-space:nowrap;line-height:1;}
 
 .iq-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
-  gap:6px;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+  gap:6px;border-radius:12px;overflow:hidden;border:1px solid var(--border);
+  grid-column:2;}
 
 .iq-cell{position:relative;padding:16px 16px 14px;cursor:pointer;
   transition:filter .2s,transform .2s;min-height:130px;
@@ -92,13 +92,14 @@
     <div class="card-title purple">Mapa interativo</div>
     <p style="font-size:12px;color:var(--text2);margin-bottom:14px;">Eixo horizontal = <strong style="color:var(--text);">SvcO₂</strong> (extração de O₂ pelos tecidos) · Eixo vertical = <strong style="color:var(--text);">Δ pCO₂</strong> (adequação do fluxo tecidual). Canto superior-esquerdo = pior cenário.</p>
 
-    <div class="iq-wrap" style="padding-left:36px;">
+    <!-- top axis tick -->
+    <div style="font-family:var(--mono);font-size:9px;color:var(--text2);text-align:right;margin-bottom:4px;letter-spacing:.04em;padding-left:34px;">Δ pCO₂ ≥ 6 mmHg ↑</div>
+
+    <div class="iq-wrap">
       <!-- Y-axis label -->
-      <div class="iq-y-label">↑ Δ pCO₂ alto · fluxo ruim ↑</div>
+      <div class="iq-y-col"><div class="iq-y-label">↑ Δ pCO₂ · fluxo ruim ↑</div></div>
 
-      <!-- top axis: Δ pCO₂ alto -->
-      <div style="font-family:var(--mono);font-size:9px;color:var(--text2);text-align:right;margin-bottom:4px;letter-spacing:.04em;">Δ pCO₂ ≥ 6 mmHg ↑</div>
-
+      <!-- 2×2 grid -->
       <div class="iq-grid" id="iqGrid">
         <!-- Q4: top-left — low SvcO₂ + high ΔpCO₂ -->
         <div class="iq-cell iq-q4" data-q="q4" onclick="selectQ(this)" tabindex="0">
@@ -126,11 +127,11 @@
         </div>
       </div>
 
-      <!-- bottom axis: SvcO₂ -->
-      <div style="margin-top:4px;font-family:var(--mono);font-size:9px;color:var(--text2);margin-bottom:2px;letter-spacing:.04em;">↓ Δ pCO₂ &lt; 6 mmHg (fluxo ok)</div>
+      <!-- bottom axis tick -->
+      <div style="grid-column:2;margin-top:4px;font-family:var(--mono);font-size:9px;color:var(--text2);letter-spacing:.04em;">↓ Δ pCO₂ &lt; 6 mmHg (fluxo ok)</div>
     </div>
 
-    <div class="iq-axis-row" style="padding-left:36px;margin-bottom:12px;">
+    <div class="iq-axis-row" style="padding-left:34px;margin-top:2px;margin-bottom:12px;">
       <span>← SvcO₂ baixa (&lt; 70%)</span>
       <span>SvcO₂ alta (≥ 70%) →</span>
     </div>

@@ -67,17 +67,29 @@
   </div>
   <div class="card">
     <div class="card-title blue">Fórmulas — selecionar pelo modo ventilatório</div>
-    <div class="quad-grid">
-      <div class="quad ok" style="border-color:rgba(29,184,138,0.3);">
-        <div class="quad-header" style="color:var(--accent);">Ventilação espontânea</div>
-        <div class="formula compact">cIVC<span class="op">=</span><span class="frac"><span>D<sub>max</sub> − D<sub>min</sub></span><span>D<sub>max</sub></span></span><span class="op">×</span><span class="num">100</span></div>
-        <div class="quad-body"><strong>&gt; 50%</strong> — responsivo<br><strong>20–50%</strong> — zona cinzenta<br><strong>&lt; 20%</strong> — não responsivo<br><span style="font-size:11px;margin-top:4px;display:block;color:var(--muted);">VCI colapsa na inspiração (queda da pressão intratorácica)</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px;">
+
+      <div style="background:rgba(29,184,138,.05);border:1px solid rgba(29,184,138,.25);border-radius:12px;padding:18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:12px;">Ventilação espontânea</div>
+        <div class="formula compact" style="margin-bottom:14px;">cIVC<span class="op">=</span><span class="frac"><span>D<sub>max</sub> − D<sub>min</sub></span><span>D<sub>max</sub></span></span><span class="op">×</span><span class="num">100</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-weight:700;color:var(--green);min-width:52px;">&gt; 50%</span><span style="color:var(--text);">Responsivo</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-weight:700;color:var(--amber);min-width:52px;">20–50%</span><span style="color:var(--text2);">Zona cinzenta</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-weight:700;color:var(--red);min-width:52px;">&lt; 20%</span><span style="color:var(--text2);">Não responsivo</span></div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(29,184,138,.15);font-size:11px;color:var(--text2);line-height:1.5;">VCI <strong style="color:var(--text);">colapsa</strong> na inspiração — queda da pressão intratorácica puxa sangue.</div>
       </div>
-      <div class="quad ok" style="border-color:rgba(167,139,250,0.3);">
-        <div class="quad-header" style="color:var(--purple);">Ventilação mecânica</div>
-        <div class="formula purple compact">dIVC<span class="op">=</span><span class="frac"><span>D<sub>max</sub> − D<sub>min</sub></span><span>D<sub>min</sub></span></span><span class="op">×</span><span class="num">100</span></div>
-        <div class="quad-body"><strong>&gt; 18%</strong> — responsivo<br><strong>&lt; 18%</strong> — não responsivo<br><span style="font-size:11px;margin-top:4px;display:block;color:var(--muted);">VCI dilata na inspiração (elevação da pressão intratorácica)</span><br><span style="font-size:11px;color:var(--amber);">Válido: Vt ≥ 8 mL/kg, sem esforço espontâneo, ritmo regular</span></div>
+
+      <div style="background:rgba(124,111,247,.05);border:1px solid rgba(124,111,247,.25);border-radius:12px;padding:18px;">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple);margin-bottom:12px;">Ventilação mecânica</div>
+        <div class="formula purple compact" style="margin-bottom:14px;">dIVC<span class="op">=</span><span class="frac"><span>D<sub>max</sub> − D<sub>min</sub></span><span>D<sub>min</sub></span></span><span class="op">×</span><span class="num">100</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;">
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-weight:700;color:var(--green);min-width:52px;">&gt; 18%</span><span style="color:var(--text);">Responsivo</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-family:var(--mono);font-weight:700;color:var(--red);min-width:52px;">&lt; 18%</span><span style="color:var(--text2);">Não responsivo</span></div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(124,111,247,.15);font-size:11px;color:var(--text2);line-height:1.5;">VCI <strong style="color:var(--text);">dilata</strong> na inspiração — pressão positiva empurra contra parede. <span style="color:var(--amber);">Válido: Vt ≥ 8 mL/kg, ritmo regular, sem esforço espontâneo.</span></div>
       </div>
+
     </div>
   </div>
   <div class="card">

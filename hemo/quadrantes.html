@@ -5,91 +5,235 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quadrantes SvcO₂ × Δ pCO₂ — Hemo Guide</title>
 <link rel="stylesheet" href="../assets/styles.css">
+<style>
+/* ── Interactive quad map ───────────────────────────────── */
+.iq-wrap{position:relative;margin:16px 0 4px;}
+
+/* axis labels */
+.iq-y-label{position:absolute;left:-32px;top:50%;transform:translateY(-50%) rotate(-90deg);
+  font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text2);white-space:nowrap;}
+.iq-x-label{text-align:center;font-family:var(--mono);font-size:10px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-top:6px;}
+
+.iq-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+  gap:6px;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+
+.iq-cell{position:relative;padding:16px 16px 14px;cursor:pointer;
+  transition:filter .2s,transform .2s;min-height:130px;
+  display:flex;flex-direction:column;gap:0;outline:none;}
+.iq-cell:hover{filter:brightness(1.12);transform:scale(1.015);z-index:2;}
+.iq-cell.active{filter:brightness(1.18);transform:scale(1.02);z-index:3;}
+
+/* per-quadrant colors */
+.iq-q1{background:rgba(52,211,153,.07);border-bottom:2px solid rgba(52,211,153,.3);border-right:2px solid rgba(52,211,153,.3);}
+.iq-q2{background:rgba(240,160,48,.07);border-bottom:2px solid rgba(240,160,48,.3);border-left:2px solid rgba(240,160,48,.3);}
+.iq-q3{background:rgba(232,88,64,.07);border-top:2px solid rgba(232,88,64,.3);border-right:2px solid rgba(232,88,64,.3);}
+.iq-q4{background:rgba(226,75,74,.12);border-top:2px solid rgba(226,75,74,.4);border-left:2px solid rgba(226,75,74,.4);}
+
+.iq-tag{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:6px;}
+.iq-q1 .iq-tag{color:var(--green);}
+.iq-q2 .iq-tag{color:var(--amber);}
+.iq-q3 .iq-tag{color:var(--coral);}
+.iq-q4 .iq-tag{color:var(--red);}
+
+.iq-title{font-size:13px;font-weight:600;color:#e8ecf2;line-height:1.25;margin-bottom:4px;}
+.iq-criteria{font-family:var(--mono);font-size:10px;color:var(--text2);margin-bottom:0;}
+
+/* axis tick lines (cross) */
+.iq-cross-h{position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:var(--border2);opacity:.5;pointer-events:none;}
+.iq-cross-v{position:absolute;top:50%;left:0;right:0;height:1px;
+  background:var(--border2);opacity:.5;pointer-events:none;}
+
+/* ── Detail panel ─────────────────────────────────────── */
+.iq-detail{margin-top:10px;border-radius:10px;border:1px solid var(--border);
+  overflow:hidden;transition:all .2s;}
+.iq-detail-inner{padding:18px 20px;}
+.iq-detail-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.iq-detail-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.iq-detail-name{font-size:15px;font-weight:600;color:#e8ecf2;}
+.iq-detail-crit{font-family:var(--mono);font-size:11px;color:var(--text2);margin-left:auto;}
+.iq-detail-desc{font-size:13px;color:var(--text);line-height:1.65;margin-bottom:12px;}
+.iq-detail-action-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--text2);margin-bottom:6px;}
+.iq-detail-action{font-size:13px;color:var(--text);line-height:1.6;
+  padding:10px 14px;border-radius:8px;border-left:3px solid;}
+
+.iq-detail.d-q1{background:rgba(52,211,153,.04);}
+.iq-detail.d-q1 .iq-detail-dot{background:var(--green);}
+.iq-detail.d-q1 .iq-detail-action{border-color:var(--teal);background:rgba(29,184,138,.07);}
+
+.iq-detail.d-q2{background:rgba(240,160,48,.04);}
+.iq-detail.d-q2 .iq-detail-dot{background:var(--amber);}
+.iq-detail.d-q2 .iq-detail-action{border-color:var(--amber);background:rgba(240,160,48,.07);}
+
+.iq-detail.d-q3{background:rgba(232,88,64,.04);}
+.iq-detail.d-q3 .iq-detail-dot{background:var(--coral);}
+.iq-detail.d-q3 .iq-detail-action{border-color:var(--coral);background:rgba(232,88,64,.07);}
+
+.iq-detail.d-q4{background:rgba(226,75,74,.06);}
+.iq-detail.d-q4 .iq-detail-dot{background:var(--red);}
+.iq-detail.d-q4 .iq-detail-action{border-color:var(--red);background:rgba(226,75,74,.08);}
+
+/* axis direction arrows */
+.iq-axis-row{display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:10px;color:var(--text2);padding:0 2px;}
+.iq-axis-side{position:relative;display:flex;align-items:center;gap:4px;color:var(--text2);font-size:10px;font-family:var(--mono);}
+</style>
 </head>
 <body data-module="hemo" data-page="quadrantes">
 <main class="main">
   <p class="section-title">Quadrantes SvcO₂ × Δ pCO₂</p>
-  <p class="section-sub">Os 4 quadrantes para interpretar a hipoperfusão tecidual</p>
-  
+  <p class="section-sub">Clique em cada quadrante para ver o mecanismo e a conduta</p>
 
   <div class="card">
-    <div class="card-title purple">Mapa visual dos quadrantes</div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">Eixo X = SvcO₂ (extração de O₂) · Eixo Y = Δ pCO₂ (fluxo tecidual). A posição no plano define o mecanismo dominante.</p>
+    <div class="card-title purple">Mapa interativo</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:14px;">Eixo horizontal = <strong style="color:var(--text);">SvcO₂</strong> (extração de O₂ pelos tecidos) · Eixo vertical = <strong style="color:var(--text);">Δ pCO₂</strong> (adequação do fluxo tecidual). Canto superior-esquerdo = pior cenário.</p>
 
-    <div class="quad-plane">
-      <div class="qp-y-axis">
-        <div class="qp-axis-end">↑ alto</div>
-        <div class="qp-axis-name">Δ pCO₂</div>
-        <div class="qp-axis-end">↓ baixo</div>
-      </div>
+    <div class="iq-wrap" style="padding-left:36px;">
+      <!-- Y-axis label -->
+      <div class="iq-y-label">↑ Δ pCO₂ alto · fluxo ruim ↑</div>
 
-      <div class="qp-cell tl">
-        <div class="qp-box red">
-          <span class="qp-tag red">Q4 — baixo débito</span>
-          <div class="qp-title">Choque confirmado</div>
-          <div class="qp-criteria">SvcO₂ &lt; 70% · Δ pCO₂ ≥ 6</div>
-          <div class="qp-desc">Ambos alterados: oferta inadequada <strong>e</strong> fluxo insuficiente. Maior urgência clínica.</div>
-          <div class="qp-action">Identificar mecanismo (POCUS): hipovolemia → volume · disfunção VE → inotrópico · vasoplegia → vasopressor.</div>
+      <!-- top axis: Δ pCO₂ alto -->
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text2);text-align:right;margin-bottom:4px;letter-spacing:.04em;">Δ pCO₂ ≥ 6 mmHg ↑</div>
+
+      <div class="iq-grid" id="iqGrid">
+        <!-- Q4: top-left — low SvcO₂ + high ΔpCO₂ -->
+        <div class="iq-cell iq-q4" data-q="q4" onclick="selectQ(this)" tabindex="0">
+          <div class="iq-tag">Q4 — baixo débito</div>
+          <div class="iq-title">Choque confirmado</div>
+          <div class="iq-criteria">SvcO₂ &lt; 70% · Δ pCO₂ ≥ 6</div>
+        </div>
+        <!-- Q3: top-right — high SvcO₂ + high ΔpCO₂ -->
+        <div class="iq-cell iq-q3" data-q="q3" onclick="selectQ(this)" tabindex="0">
+          <div class="iq-tag">Q3 — falsa segurança</div>
+          <div class="iq-title">Cenário mais traiçoeiro</div>
+          <div class="iq-criteria">SvcO₂ ≥ 70% · Δ pCO₂ ≥ 6</div>
+        </div>
+        <!-- Q2: bottom-left — low SvcO₂ + low ΔpCO₂ -->
+        <div class="iq-cell iq-q2" data-q="q2" onclick="selectQ(this)" tabindex="0">
+          <div class="iq-tag">Q2 — oferta</div>
+          <div class="iq-title">Problema na oferta de O₂</div>
+          <div class="iq-criteria">SvcO₂ &lt; 70% · Δ pCO₂ &lt; 6</div>
+        </div>
+        <!-- Q1: bottom-right — high SvcO₂ + low ΔpCO₂ -->
+        <div class="iq-cell iq-q1" data-q="q1" onclick="selectQ(this)" tabindex="0">
+          <div class="iq-tag">Q1 — adequado</div>
+          <div class="iq-title">Ressuscitação adequada</div>
+          <div class="iq-criteria">SvcO₂ ≥ 70% · Δ pCO₂ &lt; 6</div>
         </div>
       </div>
 
-      <div class="qp-cell tr">
-        <div class="qp-box coral">
-          <span class="qp-tag coral">Q3 — falsa segurança</span>
-          <div class="qp-title">Cenário mais traiçoeiro</div>
-          <div class="qp-criteria">SvcO₂ ≥ 70% · Δ pCO₂ ≥ 6</div>
-          <div class="qp-desc">SvcO₂ aparentemente "ok" mas o Δ pCO₂ revela fluxo tecidual ruim. Sepse hiperdinâmica, hipóxia citopática, foco não controlado.</div>
-          <div class="qp-action">Não se tranquilizar com SvcO₂. Reavaliar lactato, ECO. Otimizar vasopressor; dobutamina se disfunção VE.</div>
-        </div>
-      </div>
-
-      <div class="qp-cell bl">
-        <div class="qp-box amber">
-          <span class="qp-tag amber">Q2 — oferta</span>
-          <div class="qp-title">Problema na oferta de O₂</div>
-          <div class="qp-criteria">SvcO₂ &lt; 70% · Δ pCO₂ &lt; 6</div>
-          <div class="qp-desc">Tecidos extraindo mais O₂ que o normal, mas fluxo mantido. O DO₂ está inadequado, não o fluxo.</div>
-          <div class="qp-action">Investigar tríade da oferta: Hb (transfusão se &lt; 7–8) · SaO₂ (otimizar O₂) · DC (eco / inotrópico).</div>
-        </div>
-      </div>
-
-      <div class="qp-cell br">
-        <div class="qp-box green">
-          <span class="qp-tag green">Q1 — adequado</span>
-          <div class="qp-title">Ressuscitação adequada</div>
-          <div class="qp-criteria">SvcO₂ ≥ 70% · Δ pCO₂ &lt; 6</div>
-          <div class="qp-desc">Oferta preservada e fluxo tecidual adequado. Os dois parâmetros excluem hipoperfusão global.</div>
-          <div class="qp-action">Manter monitoramento. Lactato seriado, PAM, diurese, enchimento capilar a cada 2–4 h.</div>
-        </div>
-      </div>
-
-      <div class="qp-x-axis">
-        <span>← baixa</span>
-        <span class="qp-axis-name">SvcO₂</span>
-        <span>alta →</span>
-      </div>
+      <!-- bottom axis: SvcO₂ -->
+      <div style="margin-top:4px;font-family:var(--mono);font-size:9px;color:var(--text2);margin-bottom:2px;letter-spacing:.04em;">↓ Δ pCO₂ &lt; 6 mmHg (fluxo ok)</div>
     </div>
 
-    <div class="alert-box info" style="margin-top:14px;">
-      <div class="icon">i</div>
-      <div class="content"><strong>Como ler o mapa</strong>Subir no eixo Y (Δ pCO₂ alto) significa fluxo tecidual ruim. Andar para a esquerda no eixo X (SvcO₂ baixa) significa que os tecidos estão extraindo mais O₂. Quanto mais para o canto superior-esquerdo (Q4), pior a situação. O canto superior-direito (Q3) é o mais traiçoeiro porque a SvcO₂ engana.</div>
+    <div class="iq-axis-row" style="padding-left:36px;margin-bottom:12px;">
+      <span>← SvcO₂ baixa (&lt; 70%)</span>
+      <span>SvcO₂ alta (≥ 70%) →</span>
+    </div>
+
+    <!-- Detail panel (hidden until click) -->
+    <div id="iqDetail" class="iq-detail" style="display:none;">
+      <div class="iq-detail-inner">
+        <div class="iq-detail-header">
+          <div class="iq-detail-dot" id="detDot"></div>
+          <div class="iq-detail-name" id="detName"></div>
+          <div class="iq-detail-crit" id="detCrit"></div>
+        </div>
+        <div class="iq-detail-desc" id="detDesc"></div>
+        <div class="iq-detail-action-label">Conduta inicial</div>
+        <div class="iq-detail-action" id="detAction"></div>
+      </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Resumo dos critérios e condutas</div>
+    <div class="card-title">Resumo rápido</div>
     <div class="table-wrap"><table>
-      <tr><th>Quadrante</th><th>SvcO₂</th><th>Δ pCO₂</th><th>Mecanismo</th><th>Conduta inicial</th></tr>
-      <tr><td><span class="pill pill-green">Q1 — adequado</span></td><td>≥ 70%</td><td>&lt; 6</td><td>Sem hipoperfusão</td><td>Manter monitoramento; verificar lactato (hiperlactatemia tipo B se ainda alto)</td></tr>
-      <tr><td><span class="pill pill-amber">Q2 — oferta</span></td><td>&lt; 70%</td><td>&lt; 6</td><td>Problema na oferta de O₂</td><td>Tríade: Hb · SaO₂ · DC. Transfundir se Hb &lt; 7–8</td></tr>
-      <tr><td><span class="pill pill-coral">Q3 — falsa segurança</span></td><td>≥ 70%</td><td>≥ 6</td><td>Shunting / citopática / foco</td><td>Não confiar na SvcO₂. Reavaliar foco, eco, lactato</td></tr>
-      <tr><td><span class="pill pill-red">Q4 — baixo débito</span></td><td>&lt; 70%</td><td>≥ 6</td><td>Choque confirmado com baixo DC</td><td>Identificar mecanismo via POCUS; volume, vasopressor ou inotrópico conforme padrão</td></tr>
+      <thead><tr><th>Quadrante</th><th>SvcO₂</th><th>Δ pCO₂</th><th>Mecanismo</th><th>Conduta inicial</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pill-green">Q1 — adequado</span></td><td>≥ 70%</td><td>&lt; 6</td><td>Sem hipoperfusão</td><td>Manter monitoramento; verificar lactato (hiperlactatemia tipo B se ainda alto)</td></tr>
+        <tr><td><span class="pill pill-amber">Q2 — oferta</span></td><td>&lt; 70%</td><td>&lt; 6</td><td>Problema na oferta de O₂</td><td>Tríade: Hb · SaO₂ · DC. Transfundir se Hb &lt; 7–8</td></tr>
+        <tr><td><span class="pill pill-coral">Q3 — falsa segurança</span></td><td>≥ 70%</td><td>≥ 6</td><td>Shunting / citopática / foco</td><td>Não confiar na SvcO₂. Reavaliar foco, eco, lactato</td></tr>
+        <tr><td><span class="pill pill-red">Q4 — baixo débito</span></td><td>&lt; 70%</td><td>≥ 6</td><td>Choque confirmado com baixo DC</td><td>Identificar mecanismo via POCUS; volume, vasopressor ou inotrópico conforme padrão</td></tr>
+      </tbody>
     </table></div>
   </div>
 
-</section>
+  <div class="card">
+    <div class="card-title teal">Como ler o mapa</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Eixo X — SvcO₂</div>
+        <p style="font-size:12.5px;color:var(--text2);line-height:1.55;">Mede a extração de O₂ pelos tecidos. <strong style="color:var(--text);">Baixa (&lt; 70%)</strong> = tecidos sugando mais O₂, oferta insuficiente para a demanda.</p>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Eixo Y — Δ pCO₂</div>
+        <p style="font-size:12.5px;color:var(--text2);line-height:1.55;">Mede a adequação do fluxo tecidual. <strong style="color:var(--text);">Alto (≥ 6 mmHg)</strong> = CO₂ se acumulando — o fluxo não está carreando adequadamente.</p>
+      </div>
+    </div>
+    <div class="alert-box info" style="margin-top:12px;">
+      <div class="icon">i</div>
+      <div class="content"><strong>Por que Q3 é o mais perigoso?</strong> Na sepse hiperdinâmica e na hipóxia citopática, a SvcO₂ pode ser normal ou elevada mesmo com hipoperfusão tecidual real. O paciente parece "ressuscitado" mas o Δ pCO₂ ≥ 6 desmascara que o fluxo tecidual ainda está inadequado.</div>
+    </div>
+  </div>
+
 </main>
 <script src="../assets/app.js"></script>
+<script>
+const data = {
+  q1: {
+    cls: 'd-q1',
+    name: 'Q1 — Ressuscitação adequada',
+    crit: 'SvcO₂ ≥ 70% · Δ pCO₂ < 6',
+    desc: 'Oferta de O₂ preservada e fluxo tecidual adequado. Os dois parâmetros excluem hipoperfusão global significativa. Se lactato ainda elevado, considerar hiperlactatemia tipo B (clearance prejudicado, hipermetabolismo).',
+    action: 'Manter monitoramento clínico. Repetir lactato em 2 h. Verificar PAM, diurese e enchimento capilar. Se lactato persistentemente alto sem hipoperfusão — investigar causa tipo B.'
+  },
+  q2: {
+    cls: 'd-q2',
+    name: 'Q2 — Problema na oferta de O₂',
+    crit: 'SvcO₂ < 70% · Δ pCO₂ < 6',
+    desc: 'Tecidos extraindo mais O₂ que o normal, mas o fluxo sanguíneo tecidual está mantido (Δ pCO₂ ok). O problema está na oferta: queda da Hb, queda da SaO₂ ou queda do débito cardíaco — não no fluxo em si.',
+    action: 'Investigar tríade da oferta: Hemoglobina (transfundir se Hb < 7–8 g/dL) · SaO₂ (otimizar FiO₂, revisar VM) · Débito cardíaco (eco — inotrópico se FE reduzida).'
+  },
+  q3: {
+    cls: 'd-q3',
+    name: 'Q3 — Falsa segurança',
+    crit: 'SvcO₂ ≥ 70% · Δ pCO₂ ≥ 6',
+    desc: 'Cenário mais traiçoeiro. SvcO₂ "normal" engana: pode haver shunting arteriovenoso (sepse hiperdinâmica), hipóxia citopática (mitocôndria não consome O₂) ou foco infeccioso não controlado. O Δ pCO₂ ≥ 6 revela que o fluxo tecidual está inadequado.',
+    action: 'Não se tranquilizar com a SvcO₂. Reavaliar lactato seriado, eco cardíaco (função VE, DC). Controlar foco infeccioso. Otimizar vasopressor; considerar dobutamina se baixo DC confirmado. Repetir gasometria venosa em 1–2 h.'
+  },
+  q4: {
+    cls: 'd-q4',
+    name: 'Q4 — Baixo débito / Choque confirmado',
+    crit: 'SvcO₂ < 70% · Δ pCO₂ ≥ 6',
+    desc: 'Ambos alterados: oferta inadequada E fluxo tecidual insuficiente. Maior urgência clínica — é o padrão clássico de choque com baixo débito. A combinação implica que os tecidos estão ao mesmo tempo privados de O₂ e acumulando CO₂.',
+    action: 'Identificar mecanismo via POCUS (RUSH): hipovolemia → testar fluido-responsividade (PLR + VTI) · disfunção VE → inotrópico (dobutamina) · vasoplegia → vasopressor (noradrenalina) · obstrutivo → tratar causa (tamponamento, TEP). Reavaliação a cada 30–60 min.'
+  }
+};
 
+function selectQ(el) {
+  document.querySelectorAll('.iq-cell').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const q = el.dataset.q;
+  const d = data[q];
+  const panel = document.getElementById('iqDetail');
+  panel.className = 'iq-detail ' + d.cls;
+  panel.style.display = 'block';
+  document.getElementById('detName').textContent = d.name;
+  document.getElementById('detCrit').textContent = d.crit;
+  document.getElementById('detDesc').textContent = d.desc;
+  document.getElementById('detAction').textContent = d.action;
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// keyboard nav
+document.querySelectorAll('.iq-cell').forEach(c => {
+  c.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') selectQ(c); });
+});
+</script>
 </body>
 </html>

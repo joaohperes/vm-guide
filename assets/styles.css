@@ -38,6 +38,14 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14
 .nav-link{display:block;padding:7px 20px 7px 28px;font-size:12.5px;color:var(--text2);text-decoration:none;border-left:2px solid transparent;transition:all .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nav-link:hover{color:var(--text);background:var(--bg3)}
 .nav-link.active{color:var(--teal);border-left-color:var(--teal);background:rgba(29,184,138,.07)}
+/* Hemo Guide — cor primária coral */
+body[data-module="hemo"] .nav-link.active{color:var(--coral);border-left-color:var(--coral);background:rgba(232,88,64,.07)}
+body[data-module="hemo"] .nav-back:hover{color:var(--coral)}
+body[data-module="hemo"] .header{border-bottom-color:rgba(232,88,64,.25)}
+body[data-module="hemo"] .header-logo-bars rect{fill:var(--coral)}
+body[data-module="hemo"] .header-logo-bars rect:last-child{fill:var(--coral);opacity:.55}
+body[data-module="hemo"] .glossary-toggle:hover{color:var(--coral)}
+body[data-module="hemo"] .glossary-dl dt{color:var(--coral)}
 .main{margin-left:var(--sidebar-w);margin-top:var(--header-h);padding:40px 48px;max-width:1200px}
 .section{padding-top:60px;margin-bottom:80px}
 .section:first-child{padding-top:20px}

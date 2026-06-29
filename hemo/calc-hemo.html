@@ -24,8 +24,8 @@
   </div>
 
   <div class="card">
-    <div class="card-title teal">cIVC — Índice de Colapsibilidade (ventilação espontânea)</div>
-    <div class="formula teal">cIVC<span class="op">=</span><span class="frac"><span>D<sub>max</sub> − D<sub>min</sub></span><span>D<sub>max</sub></span></span><span class="op">×</span><span class="num">100</span></div>
+    <div class="card-title">cIVC — Índice de Colapsibilidade (ventilação espontânea)</div>
+    <div class="formula">cIVC<span class="op">=</span><span class="frac"><span>D<sub>max</sub> − D<sub>min</sub></span><span>D<sub>max</sub></span></span><span class="op">×</span><span class="num">100</span></div>
     <div class="calc-fields">
       <div class="calc-field"><label class="calc-label">Diâmetro máximo VCI — expiração (cm)</label><input type="number" id="vcimax" class="calc-input" placeholder="ex: 2.2" step="0.1" min="0" max="5" oninput="calcVCI()"></div>
       <div class="calc-field"><label class="calc-label">Diâmetro mínimo VCI — inspiração (cm)</label><input type="number" id="vcimin" class="calc-input" placeholder="ex: 0.9" step="0.1" min="0" max="5" oninput="calcVCI()"></div>
@@ -58,8 +58,8 @@
   </div>
 
   <div class="card">
-    <div class="card-title green">DO₂ e CaO₂ — oferta de oxigênio</div>
-    <div class="formula green">CaO<sub>2</sub><span class="op">=</span>(Hb<span class="op">×</span><span class="num">1,34</span><span class="op">×</span>SaO<sub>2</sub>)<span class="op">+</span>(pO<sub>2</sub><span class="op">×</span><span class="num">0,003</span>)</div>
+    <div class="card-title">DO₂ e CaO₂ — oferta de oxigênio</div>
+    <div class="formula">CaO<sub>2</sub><span class="op">=</span>(Hb<span class="op">×</span><span class="num">1,34</span><span class="op">×</span>SaO<sub>2</sub>)<span class="op">+</span>(pO<sub>2</sub><span class="op">×</span><span class="num">0,003</span>)</div>
     <div class="formula">DO<sub>2</sub><span class="op">=</span>DC<span class="op">×</span>CaO<sub>2</sub><span class="op">×</span><span class="num">10</span></div>
     <div class="calc-fields">
       <div class="calc-field"><label class="calc-label">Hemoglobina (g/dL)</label><input type="number" id="hb" class="calc-input" placeholder="ex: 10" step="0.1" min="0" max="25" oninput="calcDO2()"></div>
@@ -125,7 +125,7 @@ function calcDO2(){
   if(isNaN(hb)||isNaN(sao2)||isNaN(po2)){showCalcResult('do2',false);return;}
   const cao2=(hb*1.34*(sao2/100))+(po2*0.003);
   document.getElementById('val-cao2').textContent=cao2.toFixed(1)+' mL O₂/dL';
-  let cc='var(--teal)',ci='Normal (18–20 mL O₂/dL)';
+  let cc='var(--accent)',ci='Normal (18–20 mL O₂/dL)';
   if(cao2<14){cc='var(--coral)';ci='Muito reduzido — avaliar Hb e SaO₂';}
   else if(cao2<17){cc='var(--amber)';ci='Reduzido — verificar componentes';}
   document.getElementById('val-cao2').style.color=cc;
@@ -133,7 +133,7 @@ function calcDO2(){
   if(!isNaN(dc)&&dc>0){
     const do2v=dc*cao2*10;
     document.getElementById('val-do2').textContent=do2v.toFixed(0)+' mL O₂/min';
-    let dc2='var(--teal)',di='Normal (950–1150 mL O₂/min)';
+    let dc2='var(--accent)',di='Normal (950–1150 mL O₂/min)';
     if(do2v<500){dc2='var(--coral)';di='Gravemente reduzido — hipoperfusão crítica';}
     else if(do2v<700){dc2='var(--amber)';di='Reduzido — avaliar DC e CaO₂';}
     document.getElementById('val-do2').style.color=dc2;
@@ -151,8 +151,8 @@ function calcLactate(){
   if(isNaN(lac0)||isNaN(lac2)||lac0<=0){showCalcResult('lactate',false);return;}
   const cl=((lac0-lac2)/lac0)*100;
   document.getElementById('val-lactate').textContent=cl.toFixed(1)+'%';
-  let color='var(--teal)',interp='';
-  if(cl>=10){color='var(--teal)';interp='<strong>Resposta adequada (clearance ≥ 10%)</strong> — ressuscitação eficaz.';}
+  let color='var(--accent)',interp='';
+  if(cl>=10){color='var(--accent)';interp='<strong>Resposta adequada (clearance ≥ 10%)</strong> — ressuscitação eficaz.';}
   else if(cl>=0){color='var(--amber)';interp='<strong>Clearance insuficiente (&lt; 10%)</strong> — resposta parcial. Reavaliar.';}
   else{color='var(--coral)';interp='<strong>Lactato em ascensão — piora metabólica</strong>. Reavaliar urgente.';}
   document.getElementById('val-lactate').style.color=color;
